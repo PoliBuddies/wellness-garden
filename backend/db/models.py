@@ -21,7 +21,7 @@ class Journal(db.Model):
     title = db.Column(db.String(80), nullable=False)
     description = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default=1)
 
     def as_dict(self):
         return {
@@ -50,7 +50,7 @@ class Activity(db.Model):
     description = db.Column(db.Text, nullable=False)
     points = db.Column(db.Integer, nullable=False, default=1)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default=1)
     user = db.relationship('User', backref=db.backref('hobbies', lazy=True))
 
 
@@ -68,7 +68,7 @@ class Friend(db.Model):
     name = db.Column(db.String(80), nullable=False)
     description = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default=1)
     user = db.relationship('User', backref=db.backref('friends', lazy=True))
 
     def __repr__(self):
@@ -82,5 +82,5 @@ class SocialActivity(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     mood = db.Column(db.Integer, nullable=False)
     friends = db.relationship('Friend', secondary=friends_activity, lazy='dynamic', backref=db.backref('social_activity', lazy=True))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default=1)
     user = db.relationship('User', backref=db.backref('social_activity', lazy=True))
