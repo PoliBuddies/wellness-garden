@@ -22,6 +22,10 @@ const SplitButton = styled(Button)({
 const MainView = () => {
   return (
     <div className="view main-view">
+      <div className="main-view-bg">
+        <img className="bg-clouds" src="/mainbg_clouds.png" alt="Wellness Garden clouds" />
+        <img className="bg-ground" src="/mainbg_ground1.png" alt="Wellness Garden ground" />
+      </div>
       <div className="main-view-content">
         <h1>Wellness Garden</h1>
         <div className="main-view-nav">
