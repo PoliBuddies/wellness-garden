@@ -6,14 +6,17 @@
 
 .calendar-side {
     background-color: #A2CC64;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .selected-date {
-    font-weight: 1400;
-    font-size: X;
-    font: small-caps bold 4em sans-serif;
+    font: small-caps bold 4vw sans-serif;
     text-align: center;
     margin: 0.1em 1em 0em 1em;
+    width: 20vw;
 }
 
 .selected-date > * {
@@ -22,4 +25,91 @@
 
 .journal {
     text-align: center;
+    width: 90%;
+}
+
+.calendar {
+    max-width: 29vw;
+}
+
+.weekdays {
+    display: flex;
+}
+
+.weekdays h3 {
+    width: 4vw;
+    font-weight: bold;
+    text-align: center;
+}
+
+.nav-button {
+    background-color: #A2CC64;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    height: 5vh;
+    min-height: 2.5vw;
+}
+
+.dates {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dates p {
+    margin: 0;
+    height: 4vw;
+    width: 4vw;
+    text-align: center;
+    font-weight: 600;
+    font-size: large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dates p:not(.today):not(.emptyDay):hover {
+    background-color: #C0DE87;
+    border-radius: 1vw;
+    animation-name: hover-fade-in;
+    animation-duration: 0.5s;
+}
+
+.dates p:not(.today):not(.emptyDay):not(:hover) {
+    background-color: #F1F5F9;
+    border-radius: 1vw;
+    animation-name: hover-fade-out;
+    animation-duration: 0.5s;
+}
+
+.calendar-wrapper {
+    margin-left: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.today {
+    background-color: #A2CC64;
+    border-radius: 1vw;
+}
+
+@keyframes hover-fade-in {
+    from {
+        background-color: #F1F5F9;
+    }
+    to {
+        background-color: #C0DE87;
+    }
+}
+
+@keyframes hover-fade-out {
+    from {
+        background-color: #C0DE87;
+    }
+    to {
+        background-color: #F1F5F9;
+    }
 }

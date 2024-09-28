@@ -1,33 +1,112 @@
+import { useState } from "react";
 import "./JournalView.css";
 
+const fetchActivities = async (year: number, month: number) => {
+  // try {
+  //   const response = await fetch("http://localhost:5000/1/" + year + "/" + (month + 1));      
+  //   const result = await response.json();
+  //   console.log(result);
+  // } catch (error) {
+  //   console.log("Failed to fetch data");
+  // }
+
+  return {
+    [0, 1]
+  };
+};
+
 const JournalView = () => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [chosenDate, setChosenDate] = useState(new Date().getDate());
+  const [activities, setActivities] = useState(fetchActivities(currentDate.getFullYear(), currentDate.getMonth()));
+  console.log(activities);
 
-    return ( 
-      <div className="calendar-view">
-        <div className="calendar-side">
-          <div className="selected-date">
-            <h1>28</h1>
-            <p>August</p>
-          </div>
-          <div className="journal">
-            <p><i>Today's notes:</i></p>
-            <p>Lorem ipsum generated text xddd </p>
-          </div>
+  const renderCalendar = () => {
+    const firstWeekday: number = currentDate.getDay() == 0 ? 7 : currentDate.getDay();
+    const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+    const days = [];
+
+    for (let i = 1; i <= 37; i++) {
+      let currentDay = i - firstWeekday + 1;
+      if (currentDay > daysInMonth) {
+        break;
+      }
+      if (i < firstWeekday) {
+        days.push(<p className="emptyDay"></p>);
+      } else if (checkIfToday(currentDay)){
+        days.push(<p onClick={() => handleDateClick(currentDay)} className="today">{currentDay}</p>);
+      } else {
+        days.push(<p onClick={() => handleDateClick(currentDay)}>{currentDay}</p>);
+      }
+    }
+
+    return days;
+  }
+
+  const handlePrevMonth = () => {
+    setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
+    setActivities(fetchActivities(currentDate.getFullYear(), currentDate.getMonth()));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
+    setActivities(fetchActivities(currentDate.getFullYear(), currentDate.getMonth()));
+  }; 
+
+  const handleDateClick = (day: number) => {
+    setChosenDate(day);
+    // TODO: Display in a list activities
+  }
+
+  const displayActivities = () => {
+    return <p>{chosenDate}</p>;
+  } 
+
+  const getMonthName = (monthIndex: number) => {
+    const months: Array<string> = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    return months[monthIndex];
+  };
+
+  const checkIfToday = (day: number) => {
+    const date = new Date((currentDate.getMonth() + 1) + "/" + day + "/" + currentDate.getFullYear());
+    return new Date().toDateString() == date.toDateString();
+  }
+
+  return ( 
+    <div className="calendar-view">
+      <div className="calendar-side">
+        <div className="selected-date">
+          <h1>{chosenDate}</h1>
+          <p>{getMonthName(currentDate.getMonth())}</p>
         </div>
-        <div className="calendar-wrapper">
-          <div className="calendar-left-button"></div>
-          <div className="calendar">
-            <div className="weekdays">
-              <h6>Mon</h6>
-            </div>
-            <div className="dates">
-
-            </div>
-          </div>
-          <div className="calendar-right-button"></div>
+        <div className="journal">
+          <p><i>Today's notes:</i></p>
+          <p>Lorem ipsum generated text xddd </p>
         </div>
       </div>
-    );
+      <div className="calendar-wrapper">
+        <button className="nav-button" onClick={handlePrevMonth}>◀</button>
+        <div className="calendar">
+          <div className="weekdays">
+            <h3>Mon</h3>
+            <h3>Tue</h3>
+            <h3>Wed</h3>
+            <h3>Thu</h3>
+            <h3>Fri</h3>
+            <h3>Sat</h3>
+            <h3>Sun</h3>
+          </div>
+          <div className="dates">
+            {renderCalendar()}
+          </div>
+        </div>
+        <button className="nav-button" onClick={handleNextMonth}>▶</button >
+      </div>
+      <div className="day-summary">
+        {displayActivities()}
+      </div>
+    </div>
+  );
 };
 
 export default JournalView;
