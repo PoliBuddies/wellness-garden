@@ -1,17 +1,21 @@
-import { FC } from 'react'
-import { Activity } from '../../types';
+import { FC, useState } from 'react'
+import { ActivityWithPlotImg } from '../../types';
 import Plot from './Plot';
 import './garden.css';
+import { Box, Modal } from '@mui/material';
 
 interface FieldRowProps {
-  activities: Activity[];
+  activities: ActivityWithPlotImg[];
 }
 
 const FieldRow: FC<FieldRowProps> = ({activities}) => {
   return (
     <div className='fieldRow'>
-      {activities.map((activity) => <Plot key={activity.name} activity={activity}></Plot>)}
-    </div>      
+      {activities.map((activity, index) => 
+          <Plot key={index} activity={activity}></Plot>
+        )
+      }
+    </div>   
   )
 }
 

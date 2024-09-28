@@ -1,12 +1,25 @@
 .plot {
   width: 15vh;
   height: 15vh;
-  border: 1px solid black;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: none;
+  border-radius: 0%;
 }
 
 .fieldRow {
 	display: Flex;
 	flex-direction: row;
+}
+
+.plot:hover {
+	cursor: pointer;
+	filter: brightness(1.1)
+}
+
+.fieldRow:nth-child(2) .plot {
+    top: -1px;
+    position: relative;
 }
 
 .field {
