@@ -1,0 +1,36 @@
+.view {
+    width: 100vw;
+    height: 100vh;
+}
+
+.main-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-view-content {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.main-view h1 {
+    margin-bottom: 15%;
+}
+
+.main-view-nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.main-view-nav-split {
+    display: flex;
+    width: 340px;
+    justify-content: space-between;
+}
