@@ -1,7 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
 
-from backend.consts import MAX_MOOD_SCALE
-
 db = SQLAlchemy()
 
 friends_activity = db.Table('friends_activity',
@@ -14,6 +12,11 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
     name = db.Column(db.String(80), nullable=False)
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+        }
 
 # Journal functionality
 class Journal(db.Model):

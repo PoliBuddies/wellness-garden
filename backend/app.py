@@ -15,7 +15,7 @@ def is_alive():
 
 @app.route('/users/<username>')
 def users(username):
-    return User.query.first(), 200
+    return User.query.filter_by(username=username).one_or_404().as_dict(), 200
 
 
 @app.route('/journals/<int:journal_id>/', methods=['GET', 'POST'])
@@ -96,7 +96,7 @@ def socials(user_id: int):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-        if not User.query.filter_by(id=1):
+        if not User.query.filter_by(id=1).one_or_none():
             user = User(username="buddy", password="qwerty", name="Study Buddy")
             db.session.add(user)
             db.session.commit()
