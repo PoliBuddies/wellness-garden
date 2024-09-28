@@ -36,16 +36,17 @@ const GardenView = () => {
 
   return (
 		<div className="view garden-view">
-			<div className='garden-view-nav-buttons'>
-				<SideNavButtons buttons={navButtons}></SideNavButtons>
-			</div>
 			<div>
 				<div className="garden-view-bg">
-					<img className="bg-ground" src="/mainbg_ground1.png" alt="Wellness Garden ground" />
+					<div className="bg-ground-grass"></div>
 				</div>
+				<img src="/fence.png" alt="Garden fence" className="garden-view-fence" />
 				<div className='garden-view-field'>
 					<Field activities={activities}></Field>
 				</div>
+			</div>
+			<div className='garden-view-nav-buttons'>
+				<SideNavButtons buttons={navButtons}></SideNavButtons>
 			</div>
 		</div>
   )

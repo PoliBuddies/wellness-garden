@@ -20,6 +20,10 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: #A0DCFF !important;
+  background-image: url("/clouds_scrolling.png");
+  background-repeat: repeat;
+  background-size: 50%;
+  animation: clouds 30s linear infinite;
 }
 
 h1 {
@@ -46,13 +50,37 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.bg-clouds {
+  background-image: url("/mainbg_clouds_cropped.png");
+  background-size: contain;
+  background-repeat: repeat-x;
+}
+
+.bg-ground {
+  background-image: url("/mainbg_ground_cropped.png");
+  background-position: 30% 0%;
+  background-repeat: repeat-x;
+}
+
+.bg-ground-grass {
+  background-image: url("/mainbg_ground_grass.png");
+  background-position: 30% 0%;
+  background-repeat: repeat-x;
+}
+
+@keyframes clouds {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     /* background-color: #ffffff; */
-  }
-  a:hover {
-    color: #747bff;
   }
   button {
     background-color: #f9f9f9;

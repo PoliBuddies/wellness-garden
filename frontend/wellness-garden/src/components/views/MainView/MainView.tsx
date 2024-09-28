@@ -17,8 +17,8 @@ const MainView = () => {
   return (
     <div className="view main-view">
       <div className="main-view-bg">
-        <img className="bg-clouds" src="/mainbg_clouds.png" alt="Wellness Garden clouds" />
-        <img className="bg-ground" src="/mainbg_ground1.png" alt="Wellness Garden ground" />
+        <div className="bg-clouds"></div>
+        <div className="bg-ground"></div>
       </div>
       <div className="main-view-content">
         <h1>Wellness Garden</h1>
