@@ -25,7 +25,12 @@ const GardenView = () => {
 		let mockActivities: Activity[] = []
 		//TODO send actual Request
 		for(let i = 0; i < numberOfFields; i++){
-			mockActivities.push({name: i.toString()});
+			mockActivities.push({
+				name: i % 2 === 0 ? i.toString() : undefined,
+				description: i % 2 === 0 ? (i + 100).toString() : undefined, 
+				mood: i % 2 === 0 ? [i] : undefined,
+				emote: i % 2 === 0 ? '🤣' : undefined,
+			});
 		}
 		return mockActivities;
 	}
