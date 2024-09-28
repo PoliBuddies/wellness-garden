@@ -3,9 +3,9 @@ import os
 from flask import Flask
 
 from backend.consts import INSTANCE_DIR
-from backend.db.models import Journal, db
+from backend.db.models import Journal, db, User
 
-app = Flask(__name__, instance_path=INSTANCE_DIR)
+app = Flask(__name__, instance_path=os.path.abspath(INSTANCE_DIR))
 app.config["DATABASE"] = os.path.join(INSTANCE_DIR, "db.sqlite")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 try:
@@ -27,4 +27,8 @@ if __name__ == '__main__':
     db.init_app(app)
     with app.app_context():
         db.create_all()
+        if not User.query.get(1):
+            user = User(username="test", password="test", name="Test User")
+            db.session.add(user)
+            db.session.commit()
     app.run()
