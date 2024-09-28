@@ -1,15 +1,20 @@
 import json
+import os
 
 from flask import Flask, request
 from sqlalchemy.exc import DatabaseError
 
+from backend.consts import INSTANCE_DIR
 from db.models import Journal, User, db, Activity, Friend, SocialActivity
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///welness-garden.db'
-db.init_app(app)
-
+app.config["DATABASE"] = os.path.join(INSTANCE_DIR, "db.sqlite")
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
+try:
+    os.makedirs(app.instance_path)
+except FileExistsError:
+    pass
 
 @app.route('/is-alive')
 def is_alive():
@@ -112,6 +117,7 @@ def socials(user_id: int):
 
 
 if __name__ == '__main__':
+    db.init_app(app)
     with app.app_context():
         db.create_all()
         if not User.query.filter_by(id=1).one_or_none():
