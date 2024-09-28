@@ -6,7 +6,7 @@ db = SQLAlchemy()
 
 friends_activity = db.Table('friends_activity',
     db.Column('friend_id', db.Integer, db.ForeignKey('friend.id'), primary_key=True),
-    db.Column('activity_id', db.Integer, db.ForeignKey('activity.id'), primary_key=True)
+    db.Column('social_activity_id', db.Integer, db.ForeignKey('social_activity.id'), primary_key=True)
 )
 
 class User(db.Model):
@@ -22,7 +22,6 @@ class Journal(db.Model):
     description = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', backref=db.backref('journals', lazy=True))
 
     def as_dict(self):
         return {
@@ -57,7 +56,7 @@ class Activity(db.Model):
 
 class ActivityMood(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    mood = db.Column(db.Integer, nullable=False, minvalues=0, maxvalues=MAX_MOOD_SCALE)
+    mood = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     activity_id = db.Column(db.Integer, db.ForeignKey('activity.id'), nullable=False)
     activity = db.relationship('Activity', backref=db.backref('moods', lazy=True))
@@ -81,7 +80,7 @@ class SocialActivity(db.Model):
     name = db.Column(db.String(80), nullable=False)
     description = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
-    mood = db.Column(db.Integer, nullable=False, minvalues=1, maxvalues=MAX_MOOD_SCALE)
-    friends = db.relationship('Friend', secondary=friends_activity, lazy='dynamic', backref=db.backref('social_activities', lazy=True))
+    mood = db.Column(db.Integer, nullable=False)
+    friends = db.relationship('Friend', secondary=friends_activity, lazy='dynamic', backref=db.backref('social_activity', lazy=True))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', backref=db.backref('social_activities', lazy=True))
+    user = db.relationship('User', backref=db.backref('social_activity', lazy=True))
