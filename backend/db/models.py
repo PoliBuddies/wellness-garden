@@ -63,7 +63,6 @@ class Activity(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    points = db.Column(db.Integer, nullable=False, default=1)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default=1)
     user = db.relationship('User', backref=db.backref('hobbies', lazy=True))
@@ -73,7 +72,6 @@ class Activity(db.Model):
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "points": self.points,
             "creation_date": self.created_at,
             "owner": self.user.username,
             "moods": [mood.mood for mood in self.moods]
