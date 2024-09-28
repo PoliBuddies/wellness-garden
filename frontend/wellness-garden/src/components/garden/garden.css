@@ -1,0 +1,15 @@
+.plot {
+  width: 15vh;
+  height: 15vh;
+  border: 1px solid black;
+}
+
+.fieldRow {
+	display: Flex;
+	flex-direction: row;
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+}

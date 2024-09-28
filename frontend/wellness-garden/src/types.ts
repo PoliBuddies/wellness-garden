@@ -4,3 +4,7 @@ export enum VIEWS {
     TREE_VIEW = 'TREE_VIEW',
     MOOD_BOARD_VIEW = 'MOOD_BOARD_VIEW',
 };
+
+export interface Activity {
+    name: string
+} //todo define properly
