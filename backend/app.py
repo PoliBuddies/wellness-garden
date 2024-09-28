@@ -6,7 +6,7 @@ from flask import Flask, request
 from sqlalchemy.exc import DatabaseError
 
 from backend.consts import INSTANCE_DIR
-from db.models import Journal, User, db, Activity, Friend, SocialActivity, ActivityMood
+from db.models import Journal, User, db, Activity, Friend, SocialActivity, ActivityMood, Entry
 
 app = Flask(__name__)
 
@@ -50,6 +50,50 @@ def journals_enpoint(user_id: int):
             return "This user already has a journal", 400
     elif request.method == 'GET':
         return Journal.query.filter_by(user_id=user_id).one_or_404().as_dict(), 200
+
+
+@app.route('/journals/<int:user_id>/entries/', methods=['GET', 'POST'])
+def entries_endpoint(user_id: int):
+    if request.method == 'GET':
+        entries = Journal.query.filter_by(user_id=user_id).one_or_404().entries
+        if not entries:
+            return "No entries found", 404
+        return [entry.as_dict() for entry in entries], 200
+    elif request.method == 'POST':
+        body = request.json
+        try:
+            title = body['title']
+            content = body['content']
+            journal_id = body['journal_id']
+        except KeyError:
+            return "Invalid request", 400
+        entry = Entry(title=title, content=content, journal_id=journal_id)
+        db.session.add(entry)
+        try:
+            db.session.commit()
+            return entry.as_dict(), 201
+        except DatabaseError as e:
+            print(e)
+            return "Error occurred while saving entry", 500
+
+
+@app.route('/journals/<int:user_id>/entries/<int:entry_id>/', methods=['GET', 'PATCH'])
+def entry_endpoint(user_id: int, entry_id: int):
+    if request.method == 'GET':
+        entry = Entry.query.filter_by(journal_id=user_id, id=entry_id).one_or_404()
+        return entry.as_dict(), 200
+    elif request.method == 'PATCH':
+        body = request.json
+        try:
+            new_title = body['title']
+            new_content = body['content']
+        except KeyError:
+            return "Invalid request", 400
+        entry = Entry.query.filter_by(journal_id=user_id, id=entry_id).one_or_404()
+        entry.title = new_title
+        entry.content = new_content
+        db.session.commit()
+        return entry.as_dict(), 200
 
 
 @app.route('/activities/<int:user_id>/', methods=['GET', 'POST'])
