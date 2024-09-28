@@ -1,6 +1,9 @@
-from flask import Flask, request
+import json
 
-from backend.db.models import Journal, User, db, Activity, Friend, SocialActivity
+from flask import Flask, request
+from sqlalchemy.exc import DatabaseError
+
+from db.models import Journal, User, db, Activity, Friend, SocialActivity
 
 app = Flask(__name__)
 
@@ -18,31 +21,46 @@ def users(username):
     return User.query.filter_by(username=username).one_or_404().as_dict(), 200
 
 
-@app.route('/journals/<int:journal_id>/', methods=['GET', 'POST'])
-def journals(journal_id: int):
+@app.route('/journals/<int:user_id>/', methods=['GET', 'POST'])
+def journals_enpoint(user_id: int):
     if request.method == 'POST':
-        body = request.get_json(silent=True)
-        title = body['title']
-        description = body['description']
+        user = User.query.filter_by(id=user_id).one_or_404()
+        body = request.json
+        try:
+            title = body['title']
+            description = body['description']
+        except KeyError:
+            return "Invalid request", 400
         journal: Journal = Journal(
             title=title,
-            description=description)
+            description=description,
+            user=user)
         db.session.add(journal)
-        db.session.commit()
-        return "success", 200
+        try:
+            db.session.commit()
+            return journal.as_dict(), 201
+        except DatabaseError as e:
+            print(e)
+            return "This user already has a journal", 400
     elif request.method == 'GET':
-        return Journal.query.filter_by(id=journal_id).first().as_dict(), 200
+        return Journal.query.filter_by(user_id=user_id).one_or_404().as_dict(), 200
 
 
 @app.route('/activities/<int:user_id>/', methods=['GET', 'POST'])
-def activities(user_id: int):
+def activities_enpoint(user_id: int):
     if request.method == 'GET':
-        return Activity.query.filter_by(user_id=1), 200
+        activities = Activity.query.filter_by(user_id=user_id).all()
+        if not activities:
+            return "No activities found", 404
+        return [activity.as_dict() for activity in activities], 200
     elif request.method == 'POST':
-        body = request.get_json(silent=True)
-        name = body['title']
-        description = body['description']
-        points = body['description']
+        body = request.json
+        try:
+            name = body['title']
+            description = body['description']
+            points = int(body['points'])
+        except (KeyError, ValueError, TypeError):
+            return "Invalid request", 400
         activity: Activity = Activity(name=name, description=description, points=points)
         db.session.add(activity)
         db.session.commit()
@@ -54,7 +72,7 @@ def activity(user_id: int, activity_id: int):
     if request.method == 'GET':
         return Activity.query.filter_by(user_id=1, id=activity_id).first().as_dict(), 200
     elif request.method == 'PATCH':
-        body = request.get_json(silent=True)
+        body = request.json
         points = body['points']
         activity: Activity = Activity.query.filter_by(user_id=1, id=activity_id).first()
         activity.points += points

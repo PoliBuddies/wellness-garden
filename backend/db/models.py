@@ -12,6 +12,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
     name = db.Column(db.String(80), nullable=False)
+    journal = db.relationship('Journal', uselist=False, back_populates='user')
 
     def as_dict(self):
         return {
@@ -24,7 +25,8 @@ class Journal(db.Model):
     title = db.Column(db.String(80), nullable=False)
     description = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default=1)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default=1, unique=True)
+    user = db.relationship('User', back_populates='journal')
 
     def as_dict(self):
         return {
