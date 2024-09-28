@@ -2,13 +2,7 @@ import { styled } from '@mui/material';
 import './MainView.css';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
-
-const GardenButton = styled(Button)({
-  width: "340px",
-  height: "72px",
-  fontSize: "1.6rem",
-  fontWeight: "600",
-}) as typeof Button;
+import { GardenButton } from '../../common/GardenButton';
 
 const SplitButton = styled(Button)({
   width: "160px",

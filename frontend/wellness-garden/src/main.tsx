@@ -7,6 +7,7 @@ import {
 import './static/css/index.css'
 import MainView from './components/views/MainView/MainView.tsx'
 import CssBaseline from '@mui/material/CssBaseline'
+import GardenView from './components/views/GardenView/GardenView.tsx'
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/garden",
-    element: <div>garden</div>    // Replace with garden view
+    element: <GardenView></GardenView>
   }
 ])
 
