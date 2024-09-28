@@ -8,6 +8,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
 .garden-view-bg {
@@ -20,12 +21,19 @@
     z-index: 0;
 }
 
-.garden-view-bg .bg-ground {
+.garden-view-bg .bg-ground-grass {
     position: absolute;
     width: 100vw;
     height: 80vh;
     top: 20vh;
     left: 0;
+}
+
+.garden-view-fence {
+    position: absolute;
+    left: 0;
+    top: 27vh;
+    width: 600px;
 }
 
 .garden-view-field {
@@ -40,4 +48,3 @@
     top: 48px;
     left: 32px;
 }
-

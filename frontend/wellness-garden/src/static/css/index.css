@@ -62,6 +62,12 @@ button:focus-visible {
   background-repeat: repeat-x;
 }
 
+.bg-ground-grass {
+  background-image: url("/mainbg_ground_grass.png");
+  background-position: 30% 0%;
+  background-repeat: repeat-x;
+}
+
 @keyframes clouds {
   0% {
     background-position: 0% 0%;

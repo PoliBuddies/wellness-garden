@@ -38,8 +38,9 @@ const GardenView = () => {
 		<div className="view garden-view">
 			<div>
 				<div className="garden-view-bg">
-					<div className="bg-ground"></div>
+					<div className="bg-ground-grass"></div>
 				</div>
+				<img src="/fence.png" alt="Garden fence" className="garden-view-fence" />
 				<div className='garden-view-field'>
 					<Field activities={activities}></Field>
 				</div>
