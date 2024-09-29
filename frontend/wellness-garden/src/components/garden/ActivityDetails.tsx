@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { BACKEND_URL, FullActivity, USER_ID } from '../../types';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import './garden.css';
 
 interface ActivityDetailsProps {
@@ -40,6 +40,21 @@ const ActivityDetails: FC<ActivityDetailsProps> = ({activityId}) => {
       }
     } 
 
+    const handleSubmit = async () => {
+      const URL = "http://127.0.0.1:5000//activities/1/" + activityId + "/moods/"
+      try {
+        fetch(URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ mood })
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
     useEffect(() => {
         if(activityId) {
           fetchActivity(activityId);
@@ -47,8 +62,12 @@ const ActivityDetails: FC<ActivityDetailsProps> = ({activityId}) => {
       }, [activityId])
 
       const [activity, setActivity] = useState<FullActivity>(getEmptyActivity())
+      const [mood, setMood] = useState<number>(1);
     
-//todo activity display
+      const handleMoodChange = (event: any) => {
+        setMood(event.target.value);
+      };
+
   return (
     <Box sx={style} id="modal-garden-box">
       <div className='formWrapper'>
@@ -77,6 +96,18 @@ const ActivityDetails: FC<ActivityDetailsProps> = ({activityId}) => {
             </div>
           </div>
         </div>
+        <form id="mood_form">
+          <label>Your mood score:
+            <select name="mood" id="mood" form="mood_form" value={mood} onChange={handleMoodChange}>
+              <option value="1">😢</option>
+              <option value="2">😕</option>
+              <option value="3">😐</option>
+              <option value="4">😊</option>
+              <option value="5">😁</option>
+            </select>
+          </label>
+        </form>
+        <Button onClick={handleSubmit}>Register activity</Button>
       </div>
     </Box>
   )

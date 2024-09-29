@@ -16,6 +16,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config["DATABASE"] = os.path.join(INSTANCE_DIR, "wellness-garden.sqlite")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///wellness-garden.sqlite"
+
 try:
     os.makedirs(app.instance_path)
 except FileExistsError:
@@ -44,8 +45,8 @@ def get_all_activity_moods_in_month(user_id, year, month):
 def get_all_users_entries_in_month(user_id, year, month):
     entries = Entry.query.filter(
         Entry.journal.has(user_id=user_id),
-        sqlalchemy.extract("year", Entry.created_at) == year,
-        sqlalchemy.extract("month", Entry.created_at) == month
+        sqlalchemy.extract("year", Entry.date) == year,
+        sqlalchemy.extract("month", Entry.date) == month
     ).all()
     return entries
 
@@ -97,10 +98,12 @@ def entries_endpoint(user_id: int):
         try:
             title = body['title']
             content = body['content']
+            date = (datetime.datetime.strptime(body['date'], "%Y-%m-%dT%H:%M")
+                    if 'date' in body else datetime.datetime.now())
         except KeyError:
             return "Invalid request", 400
         journal_id = User.query.filter(User.id == user_id).one_or_404().journal.id
-        entry = Entry(title=title, content=content, journal_id=journal_id)
+        entry = Entry(title=title, content=content, journal_id=journal_id, date=date)
         db.session.add(entry)
         try:
             db.session.commit()
@@ -301,8 +304,8 @@ def calendar_endpoint(user_id: int, year: int, month: int):
             "entry_content": ""
         })
     for entry in entries:
-        response[entry.created_at.day - 1]['entry_title'] = entry.title
-        response[entry.created_at.day - 1]['entry_content'] = entry.content
+        response[entry.date.day - 1]['entry_title'] = entry.title
+        response[entry.date.day - 1]['entry_content'] = entry.content
     for activity_mood in activities_moods:
         response[activity_mood.date.day - 1]['activities'].append({
             "name": activity_mood.activity.name,
@@ -322,7 +325,8 @@ if __name__ == '__main__':
             user = User(username="buddy", password="qwerty", name="Study Buddy")
             journal = Journal(title="My Journal", description="My personal journal", user=user)
             db.session.add(user)
-            db.session.add(journal)entry = Entry(title="First entry", content="This is my first entry", journal=journal)
+            db.session.add(journal)
+            entry = Entry(title="First entry", content="This is my first entry", journal=journal)
             db.session.add(entry)
             activity = Activity(name="Running", description="Running in the park", user=user, icon="🏃")
             db.session.add(activity)
