@@ -1,0 +1,25 @@
+.calendar-view {
+    display: flex;
+    background-color: #F1F5F9;
+    border-radius: 1vw;
+}
+
+.calendar-side {
+    background-color: #A2CC64;
+}
+
+.selected-date {
+    font-weight: 1400;
+    font-size: X;
+    font: small-caps bold 4em sans-serif;
+    text-align: center;
+    margin: 0.1em 1em 0em 1em;
+}
+
+.selected-date > * {
+    margin: 0;
+}
+
+.journal {
+    text-align: center;
+}

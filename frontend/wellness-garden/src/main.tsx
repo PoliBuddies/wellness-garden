@@ -9,6 +9,7 @@ import MainView from './components/views/MainView/MainView.tsx'
 import CssBaseline from '@mui/material/CssBaseline'
 import GardenView from './components/views/GardenView/GardenView.tsx'
 import { createTheme, ThemeProvider } from '@mui/material'
+import JournalView from './components/views/JournalView/JournalView.tsx'
 
 const theme = createTheme({
   palette: {
@@ -42,7 +43,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/garden",
-    element: <GardenView></GardenView>
+    element: <div>garden</div>    // Replace with garden view
+  },
+  {
+    path: "/journal",
+    element: <JournalView />
   }
 ])
 
