@@ -182,3 +182,18 @@
         background-color: #F1F5F9;
     }
 }
+
+.note {
+   background-color: whitesmoke;
+   border-radius: 25px;
+   height: 100%;
+   width: 100%;
+   padding: 15px;
+   margin: 15px;
+   min-height: 200px;
+}
+
+.note-title {
+    font-size: large;
+    font-weight: 600;
+}
