@@ -5,6 +5,7 @@ import { Modal, Tooltip, Typography } from '@mui/material';
 import React from 'react';
 import ActivityEdit from './ActivityEdit';
 import ActivityDetails from './ActivityDetails';
+import Flower from './Flower';
 
 interface PlotProps {
     activity: ActivityWithPlotImg;
@@ -32,6 +33,7 @@ const Plot: FC<PlotProps> = ({activity, refetch}) => {
             <div
               className='plot' 
               style={{ backgroundImage: activity.img }}>
+                {activity.id && <Flower id={activity.id}/>}
             </div>
           </Tooltip>
         ) 
