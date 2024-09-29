@@ -1,9 +1,10 @@
 import { FC, useState } from 'react'
 import './garden.css'
-import { ActivityWithPlotImg, resolveMood } from '../../types'
-import { Box, Modal, Tooltip, Typography } from '@mui/material';
+import { ActivityWithPlotImg } from '../../types'
+import { Modal, Tooltip, Typography } from '@mui/material';
 import React from 'react';
 import ActivityEdit from './ActivityEdit';
+import ActivityDetails from './ActivityDetails';
 
 interface PlotProps {
     activity: ActivityWithPlotImg;
@@ -11,18 +12,20 @@ interface PlotProps {
 
 const Plot: FC<PlotProps> = ({activity}) => {
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
+
+  const hideModal = () => {
+    setModalVisible(false);
+  }
+
   return (
     <>
       <div onClick={() => setModalVisible(true)}>
-        {activity.mood ? ( //todo mood history
+        {activity.id ? (
           <Tooltip 
             placement='top' 
             title={          
               <React.Fragment>
-                <Typography color="inherit">{activity.name}</Typography>
-                <Typography color="inherit">{activity.description}</Typography>
-                <Typography color="inherit">{resolveMood(activity.mood[0])}</Typography>
-                <Typography color="inherit">{activity.emote}</Typography>
+                <Typography color="inherit">{activity.name ?? ''}{activity.icon ?? ''}</Typography>
               </React.Fragment>
             }>
             <div
@@ -39,9 +42,16 @@ const Plot: FC<PlotProps> = ({activity}) => {
           )
         }
       </div>
-      <Modal open={isModalVisible} onClose={() => setModalVisible(false)}>
-        <ActivityEdit activity={activity}/>
-      </Modal>
+      {activity.id ? (      
+        <Modal open={isModalVisible} onClose={hideModal}>
+         <div><ActivityDetails activityId={activity.id}/></div>
+        </Modal>
+      ) : (
+        <Modal open={isModalVisible} onClose={hideModal}>
+          <div><ActivityEdit/></div>
+        </Modal> 
+        ) 
+      }
     </>
   )
 }

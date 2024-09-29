@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
-import { Activity } from '../../../types';
+import { Activity, BACKEND_URL, USER_ID } from '../../../types';
 import Field from '../../garden/Field';
 import './GardenView.css';
 import SideNavButtons from '../../common/SideNavButtons';
 import { motion } from 'framer-motion';
 
 const GardenView = () => {
-	// todo implement logic to pick larger from fetch.length + x (x === 2 || 3 depending on fetch.length being even or odd ) or 8
 	const [activities, setActivities] = useState<Activity[]>([]);
 
-	const numberOfFields = 8;
+	const minNumberOfFields = 12;
 
 	const navButtons = [
 		{	
@@ -21,23 +20,37 @@ const GardenView = () => {
 			content: 'Go Back',
 		}
 	];
-	
-	const fetchActivities = (): Activity[] => {
-		let mockActivities: Activity[] = []
-		//TODO send actual Request
-		for(let i = 0; i < numberOfFields; i++){
-			mockActivities.push({
-				name: i % 2 === 0 ? i.toString() : undefined,
-				description: i % 2 === 0 ? (i + 100).toString() : undefined, 
-				mood: i % 2 === 0 ? [i] : undefined,
-				emote: i % 2 === 0 ? '🤣' : undefined,
-			});
+
+	async function fetchActivities(): Promise<void> {
+		try {
+			const res = await window.fetch(BACKEND_URL + '/activities/' + USER_ID, {method: 'GET'});
+        	const data  = await res.json();
+			const fetchedActivities = data as Activity[];
+			if(fetchedActivities.length < minNumberOfFields){
+				for(let i = fetchedActivities.length; i < minNumberOfFields; i++){
+					fetchedActivities.push({
+						id: undefined,
+						name: undefined,
+						icon: undefined,
+					});
+				}
+			}
+			setActivities(fetchedActivities);
+		} catch {
+			const emptyActivities: Activity[] = [];
+			for(let i = 0; i < minNumberOfFields; i++){
+				emptyActivities.push({
+					id: undefined,
+					name: undefined,
+					icon: undefined,
+				});
+			}
+			setActivities(emptyActivities);
 		}
-		return mockActivities;
-	}
+    } 
 
 	useEffect(() => {
-		setActivities(fetchActivities())
+		fetchActivities();
     }, []);
 
   return (
