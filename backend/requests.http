@@ -69,8 +69,7 @@ Content-Type: application/json
 
 {
   "title": "My first activity",
-  "description": "This is my first activity",
-  "points": 3
+  "description": "This is my first activity"
 }
 
 ### Get all user's activities: 200
@@ -120,7 +119,8 @@ Content-Type: application/json
 
 {
   "mood": 5,
-  "date": "2024-09-28T22:40"
+  "date": "2024-09-28T22:40",
+  "icon": "sh"
 }
 
 ### Get moods: 200
@@ -132,4 +132,14 @@ Content-Type: application/json
 
 {
   "mood": 4
+}
+
+### Add entry: 201
+POST http://localhost:5000/journals/1/entries/
+Content-Type: application/json
+
+{
+  "title": "My first entry",
+  "content": "This is my first entry",
+  "date": "2024-09-28T22:40"
 }
