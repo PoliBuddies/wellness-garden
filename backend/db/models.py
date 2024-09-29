@@ -85,7 +85,7 @@ class Activity(db.Model):
 class ActivityMood(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     mood = db.Column(db.Integer, nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
+    date = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     activity_id = db.Column(db.Integer, db.ForeignKey('activity.id'), nullable=False)
     activity = db.relationship('Activity', backref=db.backref('moods', lazy=True))
 

@@ -12,10 +12,11 @@ from db.models import Journal, User, db, Activity, Friend, SocialActivity, Activ
 
 app = Flask(__name__)
 
-CORS(app)
-
 app.config["DATABASE"] = os.path.join(INSTANCE_DIR, "wellness-garden.sqlite")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///wellness-garden.sqlite"
+
+CORS(app)
+
 try:
     os.makedirs(app.instance_path)
 except FileExistsError:
@@ -170,11 +171,10 @@ def add_activity_mood(user_id: int, activity_id: int):
         body = request.json
         try:
             mood = int(body['mood'])
-            date = datetime.datetime.strptime(body['date'], "%Y-%m-%dT%H:%M")
         except (KeyError, ValueError, TypeError) as e:
             print(e)
             return "Invalid request", 400
-        mood = ActivityMood(mood=mood, date=date, activity_id=activity_id)
+        mood = ActivityMood(mood=mood, activity_id=activity_id)
         db.session.add(mood)
         try:
             db.session.commit()
