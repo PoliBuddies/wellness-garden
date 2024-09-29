@@ -28,11 +28,11 @@ const JournalView = () => {
   const [chosenDate, setChosenDate] = useState(new Date().getDate());
   const [activities, setActivities] = useState<Array<ApiResult> | null>(null);
 
-  
   const fetchData = async (year: number, month: number) => {
     try {
-      const response = await fetch("http://localhost:5000/1/" + year + "/" + (month + 1));
+      const response = await fetch("http://localhost:5000/calendar/1/" + year + "/" + (month + 1));
       const result = await response.json();
+
       setActivities(result);
     } catch (error) { 
       console.log("error");
@@ -42,10 +42,9 @@ const JournalView = () => {
 
   useEffect(() => {
     if (chosenDate) {
-      fetchData(currentDate.getFullYear(), currentDate.getMonth());  // Call fetch with the current query
+      fetchData(currentDate.getFullYear(), currentDate.getMonth());
     }
   }, [chosenDate]); 
-
 
   const renderCalendar = () => {
     const firstWeekday: number = currentDate.getDay() == 0 ? 7 : currentDate.getDay();
@@ -91,7 +90,7 @@ const JournalView = () => {
     return new Date().toDateString() == date.toDateString();
   }
 
-  const displayActivityData = (key: string) => {
+  const displayActivityContent = () => {
     if (activities == null) {
       return "";
     }
@@ -99,7 +98,9 @@ const JournalView = () => {
     if (activity == undefined || activity == null) {
       return "";
     }
-    return activity?[key] ?? "": "";
+
+    console.log(activity);
+    return activity["entry_content"];
   }
 
   const renderDaySummary = () => {
@@ -146,7 +147,7 @@ const JournalView = () => {
         </div>
         <div className="journal">
           <p><i>Today's notes:</i></p>
-          <p>{displayActivityData("entry_description")}</p>
+          <p>{displayActivityContent()}</p>
         </div>
       </div>
       <div className="calendar-wrapper">

@@ -327,9 +327,9 @@ if __name__ == '__main__':
         journal = user.journal
         entry = Entry(title="First entry", content="This is my first entry", journal=journal)
         db.session.add(entry)
-        activity = Activity(name="Running", description="Running in the park", user=user)
+        activity = Activity(name="Running", description="Running in the park", user=user, icon="🏃")
         db.session.add(activity)
-        mood = ActivityMood(mood=5, date=datetime.datetime.now(), activity=activity, icon="🏃")
+        mood = ActivityMood(mood=5, date=datetime.datetime.now(), activity=activity)
         db.session.add(mood)
         friend = Friend(name="John", description="My friend")
         db.session.add(friend)
