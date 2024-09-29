@@ -16,6 +16,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config["DATABASE"] = os.path.join(INSTANCE_DIR, "wellness-garden.sqlite")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///wellness-garden.sqlite"
+
 try:
     os.makedirs(app.instance_path)
 except FileExistsError:
@@ -171,11 +172,10 @@ def add_activity_mood(user_id: int, activity_id: int):
         body = request.json
         try:
             mood = int(body['mood'])
-            date = datetime.datetime.strptime(body['date'], "%Y-%m-%dT%H:%M")
         except (KeyError, ValueError, TypeError) as e:
             print(e)
             return "Invalid request", 400
-        mood = ActivityMood(mood=mood, date=date, activity_id=activity_id)
+        mood = ActivityMood(mood=mood, activity_id=activity_id)
         db.session.add(mood)
         try:
             db.session.commit()
@@ -322,7 +322,8 @@ if __name__ == '__main__':
             user = User(username="buddy", password="qwerty", name="Study Buddy")
             journal = Journal(title="My Journal", description="My personal journal", user=user)
             db.session.add(user)
-            db.session.add(journal)entry = Entry(title="First entry", content="This is my first entry", journal=journal)
+            db.session.add(journal)
+            entry = Entry(title="First entry", content="This is my first entry", journal=journal)
             db.session.add(entry)
             activity = Activity(name="Running", description="Running in the park", user=user, icon="🏃")
             db.session.add(activity)
