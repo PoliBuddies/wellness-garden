@@ -138,9 +138,10 @@ def activities_enpoint(user_id: int):
         try:
             name = body['title']
             description = body['description']
+            icon = body['icon']
         except (KeyError, ValueError, TypeError):
             return "Invalid request", 400
-        activity: Activity = Activity(name=name, description=description)
+        activity: Activity = Activity(name=name, description=description, icon=icon)
         db.session.add(activity)
         try:
             db.session.commit()
@@ -167,11 +168,10 @@ def add_activity_mood(user_id: int, activity_id: int):
         try:
             mood = int(body['mood'])
             date = datetime.datetime.strptime(body['date'], "%Y-%m-%dT%H:%M")
-            icon = body['icon']
         except (KeyError, ValueError, TypeError) as e:
             print(e)
             return "Invalid request", 400
-        mood = ActivityMood(mood=mood, date=date, activity_id=activity_id, icon=icon)
+        mood = ActivityMood(mood=mood, date=date, activity_id=activity_id)
         db.session.add(mood)
         try:
             db.session.commit()
