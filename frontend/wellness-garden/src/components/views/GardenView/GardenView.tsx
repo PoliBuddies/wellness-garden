@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Activity, BACKEND_URL, USER_ID } from '../../../types';
 import Field from '../../garden/Field';
+import Tree from '../../garden/Tree';
 import './GardenView.css';
 import SideNavButtons from '../../common/SideNavButtons';
 import { motion } from 'framer-motion';
@@ -58,26 +59,35 @@ const GardenView = () => {
 			<div>
 				<div className="garden-view-bg">
 					<motion.div className="bg-ground-grass"
-						initial={{ y: "80vh" }}
+						initial={{ y: "230vh" }}
 						animate={{ y: 0 }}
-						exit={{ y: "80vh" }}
-						transition={{ duration: 1, ease: "easeInOut" }}
+						exit={{ y: "230vh" }}
+						transition={{ duration: 1.75, ease: "easeInOut" }}
 					></motion.div>
 				</div>
 				<motion.img src="/fence.png" alt="Garden fence" className="garden-view-fence"
-					initial={{ y: "80vh" }}
+					initial={{ y: "230vh" }}
 					animate={{ y: 0 }}
-					exit={{ y: "80vh" }}
-					transition={{ duration: 1, ease: "easeInOut" }}
+					exit={{ y: "230vh" }}
+					transition={{ duration: 1.75, ease: "easeInOut" }}
 				/>
 				<motion.div className='garden-view-field'
-					initial={{ y: "80vh" }}
+					initial={{ y: "230vh" }}
 					animate={{ y: 0 }}
-					exit={{ y: "80vh" }}
-					transition={{ duration: 1, ease: "easeInOut" }}
+					exit={{ y: "230vh" }}
+					transition={{ duration: 1.75, ease: "easeInOut" }}
 				>
 					<Field activities={activities} refetch={fetchActivities}></Field>
 				</motion.div>
+
+				<motion.div 
+					initial={{ y: "230vh", x: "60vw" }}
+					animate={{ y: 0 }}
+					exit={{ y: "230vh" }}
+					transition={{ duration: 1.75, ease: "easeInOut" }}>
+					<Tree></Tree>
+				</motion.div>
+
 			</div>
 			<motion.div className='garden-view-nav-buttons'
 				initial={{ opacity: 0 }}
