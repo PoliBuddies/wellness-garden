@@ -53,3 +53,4 @@ export interface CreateActivityRequest {
     icon: string;
 }
 
+export const TREE_IMG = 'url("/tree_mock.png")';

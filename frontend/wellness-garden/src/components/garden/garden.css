@@ -175,3 +175,16 @@
   color: black;
   border: none;
 }
+
+.tree {
+  width: 130vh;
+  height: 200vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: none;
+  border-radius: 0%;
+  z-index: 100000;
+  position: absolute;
+  right: 10vh;
+  top: -119vh;
+}
