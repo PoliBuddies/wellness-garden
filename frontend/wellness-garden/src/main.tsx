@@ -1,10 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import {
-  createBrowserRouter,
-  RouterProvider
-} from 'react-router-dom'
 import './static/css/index.css'
+import { UserProvider } from './components/common/UserContext'
+import App from './App.tsx'
+import { BrowserRouter } from 'react-router-dom'
 import MainView from './components/views/MainView/MainView.tsx'
 import CssBaseline from '@mui/material/CssBaseline'
 import GardenView from './components/views/GardenView/GardenView.tsx'
@@ -53,9 +52,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <RouterProvider router={router} />
-    </ThemeProvider>
-  </StrictMode>,
+    <BrowserRouter>
+      <UserProvider>
+        <App />
+      </UserProvider>
+    </BrowserRouter>
+  </StrictMode>
 )
