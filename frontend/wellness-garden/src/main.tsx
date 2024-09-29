@@ -43,7 +43,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/garden",
-    element: <div>garden</div>    // Replace with garden view
+    element: <GardenView></GardenView>
   },
   {
     path: "/journal",

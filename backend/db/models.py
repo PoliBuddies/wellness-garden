@@ -47,6 +47,15 @@ class Entry(db.Model):
     journal_id = db.Column(db.Integer, db.ForeignKey('journal.id'), nullable=False)
     journal = db.relationship('Journal', backref=db.backref('entries', lazy=True))
 
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "content": self.content,
+            "creation_date": self.created_at,
+            "journal": self.journal.title,
+            "journal_id": self.journal.id
+        }
 
 # Activities functionality
 class Activity(db.Model):
@@ -96,8 +105,13 @@ class Friend(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default=1)
     user = db.relationship('User', backref=db.backref('friends', lazy=True))
 
-    def __repr__(self):
-        return f'<Friend {self.name}>'
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "creation_date": self.created_at
+        }
 
 
 class SocialActivity(db.Model):
