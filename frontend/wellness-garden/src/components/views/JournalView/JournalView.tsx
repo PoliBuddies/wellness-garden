@@ -166,7 +166,6 @@ const JournalView = () => {
             <p>{getMonthName(currentDate.getMonth())}</p>
           </div>
           <div className="journal">
-          <p><i>Today's notes:</i></p>
           <p><Note date={currentDate} day={chosenDate} refetch={fetchData} note={displayActivityContent()}></Note></p>
         </div>
         </div>

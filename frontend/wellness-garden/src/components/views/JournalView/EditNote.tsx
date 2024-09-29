@@ -5,6 +5,7 @@ import { Box, Button, styled, TextField, Typography } from "@mui/material";
 interface EditNoteProps {
     note: string;
     date: Date;
+    chosenDay: number;
     refetch: (year: number, month: number) => Promise<void>;
     closeModal: () => void;
 }
@@ -38,18 +39,28 @@ const SubmitButton = styled(Button)({
 	}
 }) as typeof Button;
 
-const EditNote: FC<EditNoteProps> = ({note, date, refetch, closeModal}) => {
+const EditNote: FC<EditNoteProps> = ({note, date, refetch, closeModal, chosenDay}) => {
     const [noteContent, setNoteContent] = useState<string>(note ? note : '');
 
     const handleChangeNote = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
         setNoteContent(e.target.value)
       }
 
+      const formatDate = (date: Date): string => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed, so we add 1
+        const day = String(chosenDay);
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
+
     async function submitForm(): Promise<void> {
-    const res = await window.fetch(BACKEND_URL + '/journals/' + USER_ID + '/entries/', {
-        method: 'POST',
-        body: JSON.stringify({title: 'title', content: noteContent, date: date}),
-        headers: new Headers({'content-type': 'application/json'}),
+        console.log(JSON.stringify({title: 'title', content: noteContent, date: formatDate(date)}));
+        const res = await window.fetch(BACKEND_URL + '/journals/' + USER_ID + '/entries/', {
+            method: 'POST',
+            body: JSON.stringify({title: 'title', content: noteContent, date: formatDate(date)}),
+            headers: new Headers({'content-type': 'application/json'}),
         }
         );
         const { data } = await res.json();
