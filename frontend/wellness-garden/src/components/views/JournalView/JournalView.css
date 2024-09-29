@@ -1,8 +1,17 @@
 .calendar-view {
     display: flex;
-    background-color: #F1F5F9;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+
+.calendar-content {
+    display: flex;
     border-radius: 1vw;
-    margin-left: 2%;
+    background-color: #F1F5F9;
+    margin: 0 2vw;
+    max-height: 80vh;
 }
 
 .calendar-side {
@@ -28,6 +37,7 @@
 .journal {
     text-align: center;
     width: 90%;
+    user-select: text;
 }
 
 .calendar {
@@ -107,8 +117,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow-y: scroll;
-    max-height: 80vh;
+    overflow-y: auto;
+    max-height: 100%;
     min-height: 80vh;
 }
 

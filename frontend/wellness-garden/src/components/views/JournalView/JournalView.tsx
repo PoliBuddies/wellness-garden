@@ -4,6 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import { faCubes } from "@fortawesome/free-solid-svg-icons";
 import { resolveMood } from "../../../types";
+import { Button, styled } from "@mui/material";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 
 interface ApiResult {
@@ -138,41 +141,59 @@ const JournalView = () => {
     return activitiesToRender;
   }
 
+  const BackButton = styled(Button)({
+    position: "relative",
+    top: "30px",
+    width: "300px",
+    height: "65px",
+    fontSize: "1.6rem",
+    fontWeight: "600",
+    backgroundColor: "#A2CC64",
+    color: "rgba(0, 0, 0, 0.87)"
+  }) as typeof Button;
+
   return ( 
-    <div className="calendar-view">
-      <div className="calendar-side">
-        <div className="selected-date">
-          <h1>{chosenDate}</h1>
-          <p>{getMonthName(currentDate.getMonth())}</p>
-        </div>
-        <div className="journal">
-          <p><i>Today's notes:</i></p>
-          <p>{displayActivityContent()}</p>
-        </div>
-      </div>
-      <div className="calendar-wrapper">
-        <button className="nav-button" onClick={handlePrevMonth}>◀</button>
-        <div className="calendar">
-          <div className="weekdays">
-            <h3>Mon</h3>
-            <h3>Tue</h3>
-            <h3>Wed</h3>
-            <h3>Thu</h3>
-            <h3>Fri</h3>
-            <h3>Sat</h3>
-            <h3>Sun</h3>
+    <motion.div className="calendar-view"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1, ease: "easeInOut" }}
+    >
+      <div className="calendar-content">
+        <div className="calendar-side">
+          <div className="selected-date">
+            <h1>{chosenDate}</h1>
+            <p>{getMonthName(currentDate.getMonth())}</p>
           </div>
-          <div className="dates">
-            {renderCalendar()}
+          <div className="journal">
+            <p><i>Today's notes:</i></p>
+            <p>{displayActivityContent()}</p>
           </div>
         </div>
-        <button className="nav-button" onClick={handleNextMonth}>▶</button >
+        <div className="calendar-wrapper">
+          <button className="nav-button" onClick={handlePrevMonth}>◀</button>
+          <div className="calendar">
+            <div className="weekdays">
+              <h3>Mon</h3>
+              <h3>Tue</h3>
+              <h3>Wed</h3>
+              <h3>Thu</h3>
+              <h3>Fri</h3>
+              <h3>Sat</h3>
+              <h3>Sun</h3>
+            </div>
+            <div className="dates">
+              {renderCalendar()}
+            </div>
+          </div>
+          <button className="nav-button" onClick={handleNextMonth}>▶</button >
+        </div>
+        <div className="day-summary">
+          {renderDaySummary()}
+        </div>
       </div>
-      <div className="day-summary">
-        {renderDaySummary()}
-      </div>
-      <a className="back-button" href="/">Go back</a>
-    </div>
+      <BackButton className="back-button" component={Link} to="/" variant="contained">Go Back</BackButton>
+    </motion.div>
   );
 };
 

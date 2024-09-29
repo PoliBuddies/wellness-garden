@@ -38,6 +38,19 @@ const App = () => {
 
   const location = useLocation();
 
+  const imageSources = [
+    "/mainbg_ground_cropped.png",
+    "/mainbg_ground_grass.png",
+    "/mainbg_clouds_cropped.png",
+    "/fence.png",
+    "/clouds_scrolling.png"
+  ];
+
+  // Load images on app load
+  imageSources.forEach(src => {
+    new Image().src = src;
+  });
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
