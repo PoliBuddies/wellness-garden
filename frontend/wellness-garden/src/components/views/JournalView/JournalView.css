@@ -1,8 +1,15 @@
 .calendar-view {
     display: flex;
-    background-color: #F1F5F9;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendar-content {
+    display: flex;
     border-radius: 1vw;
-    margin-left: 2%;
+    background-color: #F1F5F9;
+    margin: 0 2vw;
 }
 
 .calendar-side {
