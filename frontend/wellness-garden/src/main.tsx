@@ -8,6 +8,7 @@ import './static/css/index.css'
 import MainView from './components/views/MainView/MainView.tsx'
 import CssBaseline from '@mui/material/CssBaseline'
 import GardenView from './components/views/GardenView/GardenView.tsx'
+import { UserProvider } from './components/common/UserContext'
 import { createTheme, ThemeProvider } from '@mui/material'
 
 const theme = createTheme({
@@ -50,7 +51,9 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <RouterProvider router={router} />
+      <UserProvider>  
+        <RouterProvider router={router} />
+      </UserProvider>
     </ThemeProvider>
   </StrictMode>,
 )
