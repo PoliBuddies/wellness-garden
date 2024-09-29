@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { BACKEND_URL, FullActivity, USER_ID } from '../../types';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, styled, Typography } from '@mui/material';
 import './garden.css';
 
 interface ActivityDetailsProps {
@@ -68,6 +68,13 @@ const ActivityDetails: FC<ActivityDetailsProps> = ({activityId}) => {
         setMood(event.target.value);
       };
 
+  const FormButton = styled(Button)({
+    height: "50px",
+    border: "2px solid #888",
+    width: "50%",
+    margin: "0 auto",
+  }) as typeof Button;
+
   return (
     <Box sx={style} id="modal-garden-box">
       <div className='formWrapper'>
@@ -96,6 +103,7 @@ const ActivityDetails: FC<ActivityDetailsProps> = ({activityId}) => {
             </div>
           </div>
         </div>
+        <div id="mood_form_divider"></div>
         <form id="mood_form">
           <label>Your mood score:
             <select name="mood" id="mood" form="mood_form" value={mood} onChange={handleMoodChange}>
@@ -103,11 +111,11 @@ const ActivityDetails: FC<ActivityDetailsProps> = ({activityId}) => {
               <option value="2">😕</option>
               <option value="3">😐</option>
               <option value="4">😊</option>
-              <option value="5">😁</option>
+              <option value="5" selected>😁</option>
             </select>
           </label>
         </form>
-        <Button onClick={handleSubmit}>Register activity</Button>
+        <FormButton onClick={handleSubmit}>Register activity</FormButton>
       </div>
     </Box>
   )
