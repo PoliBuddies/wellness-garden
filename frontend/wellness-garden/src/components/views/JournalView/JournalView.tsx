@@ -7,6 +7,7 @@ import { resolveMood } from "../../../types";
 import { Button, styled } from "@mui/material";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import Note from "./Note";
 
 
 interface ApiResult {
@@ -165,9 +166,9 @@ const JournalView = () => {
             <p>{getMonthName(currentDate.getMonth())}</p>
           </div>
           <div className="journal">
-            <p><i>Today's notes:</i></p>
-            <p>{displayActivityContent()}</p>
-          </div>
+          <p><i>Today's notes:</i></p>
+          <p><Note date={currentDate} day={chosenDate} refetch={fetchData} note={displayActivityContent()}></Note></p>
+        </div>
         </div>
         <div className="calendar-wrapper">
           <button className="nav-button" onClick={handlePrevMonth}>◀</button>
