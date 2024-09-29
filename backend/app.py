@@ -339,10 +339,10 @@ def prepare_mock_data():
     journal = Journal(title="My Journal", description="My personal journal", user=user)
     friend = Friend(name="John", description="My friend")
 
-    entry1 = Entry(title="Today I ran 10km!", content="Today I ran 10km!", journal=journal, created_at=datetime.datetime(2024, 9, 26))
-    entry2 = Entry(title="Today was a bad day", content="Today was a bad day. Had a bad headache", journal=journal, created_at=datetime.datetime(2024, 9, 27))
-    entry3 = Entry(title="Stressing about tomorrow", content="Stressing about tomorrow's exam", journal=journal, created_at=datetime.datetime(2024, 9, 28))
-    entry4 = Entry(title="Feeling great!", content="I am partying with my friends", journal=journal, created_at=datetime.datetime(2024, 9, 29))
+    entry1 = Entry(title="Today I ran 10km!", content="Today I ran 10km!", journal=journal, date=datetime.datetime(2024, 9, 26))
+    entry2 = Entry(title="Today was a bad day", content="Today was a bad day. Had a bad headache", journal=journal, date=datetime.datetime(2024, 9, 27))
+    entry3 = Entry(title="Stressing about tomorrow", content="Stressing about tomorrow's exam", journal=journal, date=datetime.datetime(2024, 9, 28))
+    entry4 = Entry(title="Feeling great!", content="I am partying with my friends", journal=journal, date=datetime.datetime(2024, 9, 29))
 
     activity1 = Activity(name="Running", description="Running in the park", user=user, icon="🏃", created_at=datetime.datetime(2024, 9, 1))
     activity2 = Activity(name="Guitar", description="Practising playing on the guitar", user=user, icon="🎸", created_at=datetime.datetime(2024, 9, 2))
