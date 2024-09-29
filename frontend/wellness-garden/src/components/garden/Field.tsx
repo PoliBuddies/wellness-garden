@@ -5,6 +5,7 @@ import './garden.css';
 
 interface FieldProps {
     activities: Activity[];
+    refetch: () => Promise<void>;
 }
 
 interface SplitedActivities {
@@ -12,7 +13,7 @@ interface SplitedActivities {
   secondRow: ActivityWithPlotImg[];
 }
 
-const Field: FC<FieldProps> = ({activities}) => {
+const Field: FC<FieldProps> = ({activities, refetch}) => {
   const [splitedActivities, setSplitedActivities] = useState<SplitedActivities | null>(null)
 
   const getPlotTileImg = (i: number, isTop: boolean): string => {
@@ -45,8 +46,8 @@ const Field: FC<FieldProps> = ({activities}) => {
     <>
     {splitedActivities && 
       <div className='field'>      
-        <FieldRow activities={splitedActivities.firstRow}></FieldRow>
-        <FieldRow activities={splitedActivities.secondRow}></FieldRow>
+        <FieldRow refetch={refetch} activities={splitedActivities.firstRow}></FieldRow>
+        <FieldRow refetch={refetch} activities={splitedActivities.secondRow}></FieldRow>
       </div>}
     </>
   )

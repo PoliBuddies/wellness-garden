@@ -35,14 +35,14 @@ const SideNavButtons: FC<SideNavButtonsProps> = ({buttons}) => {
     <div className='sideNavButtons'>
       {buttons.length > 0 && buttons.map((button, index) => 
         <SideNavButton
-					key={index}
-          variant="outlined" 
-					color="primary" 
-					component={Link}
-					to={button.to}>
-					{button.content || ""}
+			key={index}
+			variant="outlined" 
+			color="primary" 
+			component={Link}
+			to={button.to}>
+			{button.content || ""}
         </SideNavButton>
-				)
+		)
       }
     </div>
   )

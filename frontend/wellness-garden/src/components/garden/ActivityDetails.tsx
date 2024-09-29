@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { BACKEND_URL, FullActivity, USER_ID } from '../../types';
 import { Box, Button, Typography } from '@mui/material';
+import './garden.css';
 
 interface ActivityDetailsProps {
     activityId: number;
@@ -11,8 +12,9 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 500,
     bgcolor: 'background.paper',
+    borderRadius: '25px',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,

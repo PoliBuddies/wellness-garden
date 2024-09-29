@@ -5,12 +5,14 @@ import { Modal, Tooltip, Typography } from '@mui/material';
 import React from 'react';
 import ActivityEdit from './ActivityEdit';
 import ActivityDetails from './ActivityDetails';
+import Flower from './Flower';
 
 interface PlotProps {
     activity: ActivityWithPlotImg;
-}
+    refetch: () => Promise<void>;
+ }
 
-const Plot: FC<PlotProps> = ({activity}) => {
+const Plot: FC<PlotProps> = ({activity, refetch}) => {
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
   const hideModal = () => {
@@ -31,6 +33,7 @@ const Plot: FC<PlotProps> = ({activity}) => {
             <div
               className='plot' 
               style={{ backgroundImage: activity.img }}>
+                {activity.id && <Flower id={activity.id}/>}
             </div>
           </Tooltip>
         ) 
@@ -48,7 +51,7 @@ const Plot: FC<PlotProps> = ({activity}) => {
         </Modal>
       ) : (
         <Modal open={isModalVisible} onClose={hideModal}>
-          <div><ActivityEdit/></div>
+          <div><ActivityEdit refetch={refetch} closeModal={hideModal}/></div>
         </Modal> 
         ) 
       }
