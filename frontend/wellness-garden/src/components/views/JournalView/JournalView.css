@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    user-select: none;
 }
 
 .calendar-content {
@@ -10,6 +11,7 @@
     border-radius: 1vw;
     background-color: #F1F5F9;
     margin: 0 2vw;
+    max-height: 80vh;
 }
 
 .calendar-side {
@@ -35,6 +37,7 @@
 .journal {
     text-align: center;
     width: 90%;
+    user-select: text;
 }
 
 .calendar {
@@ -114,8 +117,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow-y: scroll;
-    max-height: 80vh;
+    overflow-y: auto;
+    max-height: 100%;
     min-height: 80vh;
 }
 

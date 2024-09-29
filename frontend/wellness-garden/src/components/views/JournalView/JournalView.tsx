@@ -4,7 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import { faCubes } from "@fortawesome/free-solid-svg-icons";
 import { resolveMood } from "../../../types";
-import { Button, Link, styled } from "@mui/material";
+import { Button, styled } from "@mui/material";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 
 interface ApiResult {
@@ -151,7 +153,12 @@ const JournalView = () => {
   }) as typeof Button;
 
   return ( 
-    <div className="calendar-view">
+    <motion.div className="calendar-view"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1, ease: "easeInOut" }}
+    >
       <div className="calendar-content">
         <div className="calendar-side">
           <div className="selected-date">
@@ -186,7 +193,7 @@ const JournalView = () => {
         </div>
       </div>
       <BackButton className="back-button" component={Link} to="/" variant="contained">Go Back</BackButton>
-    </div>
+    </motion.div>
   );
 };
 

@@ -2,7 +2,6 @@ import { FC, useState } from 'react'
 import './garden.css'
 import { ActivityWithPlotImg } from '../../types'
 import { Modal, Tooltip, Typography } from '@mui/material';
-import React from 'react';
 import ActivityEdit from './ActivityEdit';
 import ActivityDetails from './ActivityDetails';
 import Flower from './Flower';
@@ -24,11 +23,25 @@ const Plot: FC<PlotProps> = ({activity, refetch}) => {
       <div onClick={() => setModalVisible(true)}>
         {activity.id ? (
           <Tooltip 
-            placement='top' 
+            placement='top'
             title={          
-              <React.Fragment>
-                <Typography color="inherit">{activity.name ?? ''}{activity.icon ?? ''}</Typography>
-              </React.Fragment>
+              <div className='activity-tooltip'>
+                <Typography className="tooltip-name">ACTIVITY</Typography>
+                <div>
+                  <Typography className="tooltip-icon">{activity.icon ?? ''}</Typography>
+                  <Typography className="tooltip-activity">{activity.name ?? ''}</Typography>
+                </div>
+                <div className="tooltip-stats">
+                  <Typography className="tooltip-points">
+                    <span className="tooltip-value">13</span>
+                    <span className="tooltip-label">POINTS</span>
+                  </Typography>
+                  <Typography className="tooltip-level">
+                    <span className="tooltip-value">2</span>
+                    <span className="tooltip-label">LEVEL</span>
+                  </Typography>
+                </div>
+              </div>
             }>
             <div
               className='plot' 

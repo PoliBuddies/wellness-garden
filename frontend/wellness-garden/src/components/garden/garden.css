@@ -46,3 +46,111 @@
   border-radius: 0%;
   z-index: 10000;
 }
+
+.MuiTooltip-tooltip {
+  background-color: rgba(255,255,255,0.0) !important;
+}
+
+.activity-tooltip {
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  align-items: center;
+  gap: 6px;
+  border-radius: 20px;
+  background-color: rgba(255,255,255,0.4) !important;
+	box-shadow: 0px 0px 20px rgba(0,0,0,0.3) inset;
+  text-shadow: 0px 0px 12px rgba(0,0,0,1);
+  border: 2px rgba(255,255,255,0.7) solid;
+}
+
+.activity-tooltip > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.tooltip-name {
+  text-align: center;
+  letter-spacing: 1.5px;
+  font-weight: 500 !important;
+  margin-bottom: 6px !important;
+}
+
+.tooltip-activity {
+  font-size: 1.3rem !important;
+}
+
+.tooltip-icon {
+  font-size: 1.5rem !important;
+  margin-right: 10px !important;
+}
+
+.tooltip-stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  min-width: 120px;
+}
+
+.tooltip-stats > * {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tooltip-value {
+  font-size: 2rem !important;
+}
+
+#modal-garden-box {
+  padding: 20px 30px 25px 30px;
+}
+
+#modal-garden-box #modal-title {
+  text-align: center;
+}
+
+#modal-header {
+  margin-bottom: 6px;
+}
+
+#modal-desc {
+  display: flex;
+  flex-direction: column;
+}
+
+#modal-emote {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  font-size: 2rem;
+}
+
+.modal-label {
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+#modal-activities .modal-label {
+  font-size: 1.45rem;
+}
+
+.last-activities-entry {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 10px;
+  font-size: 1.3rem;
+}
+
+.last-activities-entry::before {
+  content: "•";
+  font-size: 2.5rem;
+  margin-right: 4px;
+  height: 1px;
+  line-height: 0;
+  margin-top: -4px;
+}
