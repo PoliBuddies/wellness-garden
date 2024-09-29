@@ -6,14 +6,19 @@ export enum VIEWS {
 };
 
 export interface Activity {
+    id?: number,
     name?: string,
-    emote?: string,
-    description?: string,
-    mood?: number[],
+    icon?: string,
+    points?: number,
 } //todo define properly
 
 export interface ActivityWithPlotImg extends Activity {
     img: string;
+}
+
+export interface FullActivity extends Activity {
+    description: string,
+    mood: number[],
 }
 
 export enum PlotTilesImg {
@@ -34,5 +39,17 @@ export const resolveMood = (mood: number): string => {
         case 5: return '😁';
         default: return '🥸';
     } 
+}
+
+export const USERNAME: string = 'username';
+
+export const USER_ID: number = 1;
+
+export const BACKEND_URL = 'http://127.0.0.1:5000';
+
+export interface CreateActivityRequest {
+    title: string;
+    description: string;
+    emote: string;
 }
 

@@ -1,6 +1,6 @@
-import React, { FC, useState } from 'react'
-import { Activity } from '../../types';
-import { Box, TextField, Typography } from '@mui/material';
+import React, { useState } from 'react'
+import { BACKEND_URL, CreateActivityRequest, USER_ID } from '../../types';
+import { Box, Button, TextField, Typography } from '@mui/material';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -14,31 +14,61 @@ const style = {
     p: 4,
 };
 
-interface ActivityEditProps {
-    activity: Activity;
-}
+const ActivityEdit = () => {
 
-const ActivityEdit: FC<ActivityEditProps> = ({activity}) => {
-  const [isEditing] = useState<boolean>(!!activity.name) 
-  const [formActivity, setFormActivity] = useState<Activity>(activity.name ? activity : {name: ''})
+  const getEmptyActivity = (): CreateActivityRequest => {
+    return {
+      title: '',
+      emote: '',
+      description: '',
+    }
+  }
 
-  const handleChangeFormActivityChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-    setFormActivity({...formActivity, name: e.target.value})
+  const [formActivity, setFormActivity] = useState<CreateActivityRequest>(getEmptyActivity())
+
+  const handleChangeFormActivityName = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    setFormActivity({...formActivity, title: e.target.value})
+  }
+
+  const handleChangeFormActivityEmote = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    setFormActivity({...formActivity, emote: e.target.value})
+  }
+
+  const handleChangeFormActivityDescription = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    setFormActivity({...formActivity, description: e.target.value})
   }
   
+  async function submitForm(): Promise<void> {
+    const res = await window.fetch(BACKEND_URL + '/activities/' + USER_ID, {method: 'POST', body: JSON.stringify(formActivity)});
+    const { data } = await res.json();
+    //todo close modal
+  } 
 
   return (
     <Box sx={style}>
-      <Typography id="modal-modal-title" variant="h6" component="h2">
-          {isEditing ? 'Edit activity' : 'Add new activity'}
-      </Typography>
+      <Typography id="modal-modal-title" variant="h6" component="h2">Add new activity</Typography>
       <TextField
         required
         id="outlined-required"
         label="Activity name"
-        value={formActivity.name}
-        onChange={(e) => handleChangeFormActivityChange(e)}
+        value={formActivity.title}
+        onChange={(e) => handleChangeFormActivityName(e)}
       />
+      <TextField
+        required
+        id="outlined-required"
+        label="Emote"
+        value={formActivity.emote}
+        onChange={(e) => handleChangeFormActivityEmote(e)}
+      />
+      <TextField
+        required
+        id="outlined-required"
+        label="Description"
+        value={formActivity.emote}
+        onChange={(e) => handleChangeFormActivityDescription(e)}
+      />
+      <Button onClick={() => submitForm()}>Submit form</Button>
     </Box>
   )
 }

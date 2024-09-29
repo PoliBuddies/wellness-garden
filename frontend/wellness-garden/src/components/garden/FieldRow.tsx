@@ -1,8 +1,7 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { ActivityWithPlotImg } from '../../types';
 import Plot from './Plot';
 import './garden.css';
-import { Box, Modal } from '@mui/material';
 
 interface FieldRowProps {
   activities: ActivityWithPlotImg[];
