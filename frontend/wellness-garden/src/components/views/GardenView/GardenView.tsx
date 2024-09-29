@@ -12,12 +12,12 @@ const GardenView = () => {
 
 	const navButtons = [
 		{	
-			to: '/',
+			to: '/journal',
 			content: 'Journal',
 		},
 		{
 			to: '/',
-			content: 'Mood',
+			content: 'Go Back',
 		}
 	];
 	

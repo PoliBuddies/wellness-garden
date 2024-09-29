@@ -56,6 +56,7 @@ class Activity(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, default=1)
     user = db.relationship('User', backref=db.backref('hobbies', lazy=True))
+    icon = db.Column(db.String(80), nullable=False)
 
     def as_dict(self):
         return {
@@ -64,6 +65,7 @@ class Activity(db.Model):
             "description": self.description,
             "creation_date": self.created_at,
             "owner": self.user.username,
+            "icon": self.icon,
             "moods": [mood.mood for mood in self.moods]
         }
 
@@ -74,7 +76,6 @@ class ActivityMood(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     activity_id = db.Column(db.Integer, db.ForeignKey('activity.id'), nullable=False)
     activity = db.relationship('Activity', backref=db.backref('moods', lazy=True))
-    icon = db.Column(db.String(80), nullable=False)
 
     def as_dict(self):
         return {
@@ -83,7 +84,6 @@ class ActivityMood(db.Model):
             "date": self.date,
             "activity": self.activity.name,
             "activity_id": self.activity.id,
-            "icon": self.icon
         }
 
 
