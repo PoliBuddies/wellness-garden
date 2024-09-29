@@ -5,13 +5,14 @@ import './garden.css';
 
 interface FieldRowProps {
   activities: ActivityWithPlotImg[];
+  refetch: () => Promise<void>;
 }
 
-const FieldRow: FC<FieldRowProps> = ({activities}) => {
+const FieldRow: FC<FieldRowProps> = ({activities, refetch}) => {
   return (
     <div className='fieldRow'>
       {activities.map((activity, index) => 
-          <Plot key={index} activity={activity}></Plot>
+          <Plot key={index} activity={activity} refetch={refetch}></Plot>
         )
       }
     </div>   

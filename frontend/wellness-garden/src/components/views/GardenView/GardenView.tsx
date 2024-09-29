@@ -76,7 +76,7 @@ const GardenView = () => {
 					exit={{ y: "80vh" }}
 					transition={{ duration: 1, ease: "easeInOut" }}
 				>
-					<Field activities={activities}></Field>
+					<Field activities={activities} refetch={fetchActivities}></Field>
 				</motion.div>
 			</div>
 			<motion.div className='garden-view-nav-buttons'

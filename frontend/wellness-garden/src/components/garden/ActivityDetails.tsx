@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { BACKEND_URL, FullActivity, USER_ID } from '../../types';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
+import './garden.css';
 
 interface ActivityDetailsProps {
     activityId: number;
@@ -11,8 +12,9 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 500,
     bgcolor: 'background.paper',
+    borderRadius: '25px',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
@@ -38,6 +40,21 @@ const ActivityDetails: FC<ActivityDetailsProps> = ({activityId}) => {
       }
     } 
 
+    const handleSubmit = async () => {
+      const URL = "http://127.0.0.1:5000//activities/1/" + activityId + "/moods/"
+      try {
+        fetch(URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ mood })
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
     useEffect(() => {
         if(activityId) {
           fetchActivity(activityId);
@@ -45,7 +62,12 @@ const ActivityDetails: FC<ActivityDetailsProps> = ({activityId}) => {
       }, [activityId])
 
       const [activity, setActivity] = useState<FullActivity>(getEmptyActivity())
+      const [mood, setMood] = useState<number>(1);
     
+      const handleMoodChange = (event: any) => {
+        setMood(event.target.value);
+      };
+
 //todo activity display
   return (
     <Box sx={style}>
@@ -53,6 +75,18 @@ const ActivityDetails: FC<ActivityDetailsProps> = ({activityId}) => {
       <Typography id="modal-modal-title" variant="h6" component="h2">Name: {activity.name}</Typography>
       <Typography id="modal-modal-title" variant="h6" component="h2">Emote: {activity.icon}</Typography>
       <Typography id="modal-modal-title" variant="h6" component="h2">Description: {activity.description}</Typography>
+      <form id="mood_form">
+        <label>Your mood score:
+        <select name="mood" id="mood" form="mood_form" value={mood} onChange={handleMoodChange}>
+          <option value="1">😢</option>
+          <option value="2">😕</option>
+          <option value="3">😐</option>
+          <option value="4">😊</option>
+          <option value="5">😁</option>
+        </select>
+        </label>
+      </form>
+      <Button onClick={handleSubmit}>Register activity</Button>
     </Box>
   )
 }

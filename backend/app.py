@@ -4,18 +4,19 @@ import os
 
 import sqlalchemy
 from flask import Flask, request
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from sqlalchemy.exc import DatabaseError
 
-from backend.consts import INSTANCE_DIR
+from consts import INSTANCE_DIR
 from db.models import Journal, User, db, Activity, Friend, SocialActivity, ActivityMood, Entry
 
 app = Flask(__name__)
 
-CORS(app)
-
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.config["DATABASE"] = os.path.join(INSTANCE_DIR, "wellness-garden.sqlite")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///wellness-garden.sqlite"
+
 try:
     os.makedirs(app.instance_path)
 except FileExistsError:
@@ -44,8 +45,8 @@ def get_all_activity_moods_in_month(user_id, year, month):
 def get_all_users_entries_in_month(user_id, year, month):
     entries = Entry.query.filter(
         Entry.journal.has(user_id=user_id),
-        sqlalchemy.extract("year", Entry.created_at) == year,
-        sqlalchemy.extract("month", Entry.created_at) == month
+        sqlalchemy.extract("year", Entry.date) == year,
+        sqlalchemy.extract("month", Entry.date) == month
     ).all()
     return entries
 
@@ -97,10 +98,12 @@ def entries_endpoint(user_id: int):
         try:
             title = body['title']
             content = body['content']
+            date = (datetime.datetime.strptime(body['date'], "%Y-%m-%dT%H:%M")
+                    if 'date' in body else datetime.datetime.now())
         except KeyError:
             return "Invalid request", 400
         journal_id = User.query.filter(User.id == user_id).one_or_404().journal.id
-        entry = Entry(title=title, content=content, journal_id=journal_id)
+        entry = Entry(title=title, content=content, journal_id=journal_id, date=date)
         db.session.add(entry)
         try:
             db.session.commit()
@@ -130,6 +133,7 @@ def entry_endpoint(user_id: int, entry_id: int):
 
 
 @app.route('/activities/<int:user_id>/', methods=['GET', 'POST'])
+@cross_origin()
 def activities_enpoint(user_id: int):
     if request.method == 'GET':
         activities = Activity.query.filter_by(user_id=user_id).all()
@@ -300,8 +304,8 @@ def calendar_endpoint(user_id: int, year: int, month: int):
             "entry_content": ""
         })
     for entry in entries:
-        response[entry.created_at.day - 1]['entry_title'] = entry.title
-        response[entry.created_at.day - 1]['entry_content'] = entry.content
+        response[entry.date.day - 1]['entry_title'] = entry.title
+        response[entry.date.day - 1]['entry_content'] = entry.content
     for activity_mood in activities_moods:
         response[activity_mood.date.day - 1]['activities'].append({
             "name": activity_mood.activity.name,
