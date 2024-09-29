@@ -99,7 +99,6 @@ const JournalView = () => {
       return "";
     }
 
-    console.log(activity);
     return activity["entry_content"];
   }
 
@@ -124,13 +123,13 @@ const JournalView = () => {
         </div>
       );
     }
-    for (let i = 0; i < activity!["social_activities"].length; i++) {
+    for (let i = 0; i < activity.social_activities.length; i++) {
       activitiesToRender.push(
         <div className="activity">
           <span></span>
           <div className="icon"><FontAwesomeIcon icon={faUsers} size="2x"/></div>
-          <p>{activity.activities[i].name}</p>
-          <p className="mood">{resolveMood(activity.activities[i].mood)}</p>
+          <p>{activity.social_activities[i].name}</p>
+          <p className="mood">{resolveMood(activity.social_activities[i].mood)}</p>
         </div>
       );
     }
