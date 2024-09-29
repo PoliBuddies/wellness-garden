@@ -8,9 +8,10 @@ import ActivityDetails from './ActivityDetails';
 
 interface PlotProps {
     activity: ActivityWithPlotImg;
-}
+    refetch: () => Promise<void>;
+ }
 
-const Plot: FC<PlotProps> = ({activity}) => {
+const Plot: FC<PlotProps> = ({activity, refetch}) => {
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
   const hideModal = () => {
@@ -48,7 +49,7 @@ const Plot: FC<PlotProps> = ({activity}) => {
         </Modal>
       ) : (
         <Modal open={isModalVisible} onClose={hideModal}>
-          <div><ActivityEdit/></div>
+          <div><ActivityEdit refetch={refetch} closeModal={hideModal}/></div>
         </Modal> 
         ) 
       }
