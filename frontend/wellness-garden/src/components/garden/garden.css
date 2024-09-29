@@ -154,3 +154,24 @@
   line-height: 0;
   margin-top: -4px;
 }
+
+#mood_form_divider {
+  width: 70%;
+  height: 1px;
+  background: #ddd;
+  margin: 0 auto;
+}
+
+#mood_form label {
+  display: block;
+  text-align: center;
+  font-size: 1.3rem !important;
+}
+
+#mood_form select {
+  margin-left: 10px;
+  font-size: 1.3rem !important;
+  background-color: rgba(0,0,0,0);
+  color: black;
+  border: none;
+}

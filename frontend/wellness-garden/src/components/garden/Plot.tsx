@@ -8,10 +8,11 @@ import Flower from './Flower';
 
 interface PlotProps {
     activity: ActivityWithPlotImg;
+    flowerTier: number;
     refetch: () => Promise<void>;
  }
 
-const Plot: FC<PlotProps> = ({activity, refetch}) => {
+const Plot: FC<PlotProps> = ({activity, flowerTier=1, refetch}) => {
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
   const hideModal = () => {
@@ -46,7 +47,7 @@ const Plot: FC<PlotProps> = ({activity, refetch}) => {
             <div
               className='plot' 
               style={{ backgroundImage: activity.img }}>
-                {activity.id && <Flower id={activity.id}/>}
+                {activity.id && <Flower id={activity.id} tier={flowerTier}/>}
             </div>
           </Tooltip>
         ) 

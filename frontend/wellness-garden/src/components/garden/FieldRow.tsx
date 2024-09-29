@@ -9,10 +9,12 @@ interface FieldRowProps {
 }
 
 const FieldRow: FC<FieldRowProps> = ({activities, refetch}) => {
+  const tiers = [3, 2, 0, 1, 1, 1, 1];
+
   return (
     <div className='fieldRow'>
       {activities.map((activity, index) => 
-          <Plot key={index} activity={activity} refetch={refetch}></Plot>
+          <Plot key={index} activity={activity} flowerTier={tiers[index % tiers.length]} refetch={refetch}></Plot>
         )
       }
     </div>   
