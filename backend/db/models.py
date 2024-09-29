@@ -45,7 +45,7 @@ class Entry(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(80), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    date = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     journal_id = db.Column(db.Integer, db.ForeignKey('journal.id'), nullable=False)
     journal = db.relationship('Journal', backref=db.backref('entries', lazy=True))
 
@@ -54,7 +54,7 @@ class Entry(db.Model):
             "id": self.id,
             "title": self.title,
             "content": self.content,
-            "creation_date": self.created_at,
+            "creation_date": self.date,
             "journal": self.journal.title,
             "journal_id": self.journal.id
         }
