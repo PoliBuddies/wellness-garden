@@ -38,7 +38,7 @@
 
 .garden-view-field {
     position: absolute;
-    bottom: 15vh;
+    bottom: min(10vh, 100px);
     left: 10vh;
     max-width: 100vw;
 }

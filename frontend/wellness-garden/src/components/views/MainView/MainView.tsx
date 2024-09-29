@@ -27,8 +27,12 @@ const MainView = () => {
             Go to Garden
           </GardenButton>
           <div className='main-view-nav-split'>
-            <SplitButton variant="outlined" color="primary">Journal</SplitButton>
-            <SplitButton variant="outlined" color="primary">Mood Board</SplitButton>
+            <SplitButton variant="outlined" color="primary" component={Link} to="/journal">
+              Journal
+            </SplitButton>
+            <SplitButton variant="outlined" color="primary" component={Link} to="/tree">
+              Social Tree
+            </SplitButton>
           </div>
         </div>
       </div>
