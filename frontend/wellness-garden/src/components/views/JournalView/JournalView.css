@@ -1,0 +1,171 @@
+.calendar-view {
+    display: flex;
+    background-color: #F1F5F9;
+    border-radius: 1vw;
+    margin-left: 2%;
+}
+
+.calendar-side {
+    border-radius: 1vw 0 0 1vw; 
+    background-color: #A2CC64;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.selected-date {
+    font: small-caps bold 4vw sans-serif;
+    text-align: center;
+    margin: 0.1em 1em 0em 1em;
+    width: 23vw;
+}
+
+.selected-date > * {
+    margin: 0;
+}
+
+.journal {
+    text-align: center;
+    width: 90%;
+}
+
+.calendar {
+    max-width: 29vw;
+}
+
+.weekdays {
+    display: flex;
+}
+
+.weekdays h3 {
+    width: 4vw;
+    font-weight: bold;
+    text-align: center;
+}
+
+.nav-button {
+    background-color: #A2CC64;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    height: 5vh;
+    min-height: 2.5vw;
+}
+
+.dates {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dates p {
+    margin: 0;
+    height: 4vw;
+    width: 4vw;
+    text-align: center;
+    font-weight: 600;
+    font-size: large;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dates p:not(.today):not(.emptyDay):hover {
+    background-color: #C0DE87;
+    border-radius: 1vw;
+    animation-name: hover-fade-in;
+    animation-duration: 0.5s;
+}
+
+.dates p:not(.today):not(.emptyDay):not(:hover) {
+    background-color: #F1F5F9;
+    border-radius: 1vw;
+    animation-name: hover-fade-out;
+    animation-duration: 0.5s;
+}
+
+.calendar-wrapper {
+    margin-left: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.today {
+    background-color: #A2CC64;
+    border-radius: 1vw;
+}
+
+.day-summary {
+    width: 31.5vw;
+    margin-left: 1vw;
+    background-color: #A2CC64;
+    border-radius: 0 1vw 1vw 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.activity {
+    background-color: #F1F5F9;
+    display: grid;
+    border-radius: 1vw;
+    width: 95%;
+    height: 4.5vw;
+    margin: 1vh 0 1vh 0;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: 5% 15% 60% 20%;
+}
+
+.activity * {
+    font-weight: 600;
+    display: flex;
+    margin: 0;
+    align-items: center;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+}
+
+.mood {
+    font-size: xx-large;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    position: fixed;
+    bottom: 20px;
+    background-color: #A2CC64;
+    border-radius: 1vw;
+    width: 6vw;
+    height: 2em;
+    text-decoration: none;
+    color: inherit;
+}
+
+@keyframes hover-fade-in {
+    from {
+        background-color: #F1F5F9;
+    }
+    to {
+        background-color: #C0DE87;
+    }
+}
+
+@keyframes hover-fade-out {
+    from {
+        background-color: #C0DE87;
+    }
+    to {
+        background-color: #F1F5F9;
+    }
+}

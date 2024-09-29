@@ -7,6 +7,7 @@ friends_activity = db.Table('friends_activity',
     db.Column('social_activity_id', db.Integer, db.ForeignKey('social_activity.id'), primary_key=True)
 )
 
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
@@ -18,6 +19,7 @@ class User(db.Model):
         return {
             "id": self.id,
         }
+
 
 # Journal functionality
 class Journal(db.Model):
