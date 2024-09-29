@@ -4,12 +4,15 @@ import os
 
 import sqlalchemy
 from flask import Flask, request
+from flask_cors import CORS
 from sqlalchemy.exc import DatabaseError
 
 from backend.consts import INSTANCE_DIR
 from db.models import Journal, User, db, Activity, Friend, SocialActivity, ActivityMood, Entry
 
 app = Flask(__name__)
+
+CORS(app)
 
 app.config["DATABASE"] = os.path.join(INSTANCE_DIR, "wellness-garden.sqlite")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///wellness-garden.sqlite"
