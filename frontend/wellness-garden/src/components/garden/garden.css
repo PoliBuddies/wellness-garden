@@ -36,3 +36,13 @@
   flex-direction: column;
   gap: 15px;
 }
+
+.flower {
+  width: 15vh;
+  height: 15vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: none;
+  border-radius: 0%;
+  z-index: 10000;
+}
