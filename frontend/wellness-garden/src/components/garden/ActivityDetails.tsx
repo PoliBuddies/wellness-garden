@@ -62,7 +62,7 @@ const ActivityDetails: FC<ActivityDetailsProps> = ({activityId}) => {
       }, [activityId])
 
       const [activity, setActivity] = useState<FullActivity>(getEmptyActivity())
-      const [mood, setMood] = useState<number>();
+      const [mood, setMood] = useState<number>(1);
     
       const handleMoodChange = (event: any) => {
         setMood(event.target.value);
