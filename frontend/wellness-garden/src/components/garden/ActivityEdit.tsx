@@ -62,7 +62,6 @@ const ActivityEdit: FC<ActivityEditProps> = ({closeModal, refetch}) => {
   }
   
   async function submitForm(): Promise<void> {
-    console.log(JSON.stringify(formActivity));
     const res = await window.fetch(BACKEND_URL + '/activities/' + USER_ID + '/', {
         method: 'POST',
         body: JSON.stringify(formActivity),
