@@ -26,3 +26,13 @@
 	display: flex;
 	flex-direction: column;
 }
+
+.formInput {
+  margin-bottom: 10px;
+}
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}

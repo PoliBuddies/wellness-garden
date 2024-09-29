@@ -4,7 +4,7 @@ import os
 
 import sqlalchemy
 from flask import Flask, request
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from sqlalchemy.exc import DatabaseError
 
 from backend.consts import INSTANCE_DIR
@@ -12,8 +12,8 @@ from db.models import Journal, User, db, Activity, Friend, SocialActivity, Activ
 
 app = Flask(__name__)
 
-CORS(app)
-
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.config["DATABASE"] = os.path.join(INSTANCE_DIR, "wellness-garden.sqlite")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///wellness-garden.sqlite"
 try:
@@ -130,6 +130,7 @@ def entry_endpoint(user_id: int, entry_id: int):
 
 
 @app.route('/activities/<int:user_id>/', methods=['GET', 'POST'])
+@cross_origin()
 def activities_enpoint(user_id: int):
     if request.method == 'GET':
         activities = Activity.query.filter_by(user_id=user_id).all()
