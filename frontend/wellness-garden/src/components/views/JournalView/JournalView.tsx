@@ -1,31 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./JournalView.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import { faCubes } from "@fortawesome/free-solid-svg-icons";
+import { resolveMood } from "../../../types";
 
-const fetchActivities = (year: number, month: number) => {
-  // try {
-  //   const response = await fetch("http://localhost:5000/1/" + year + "/" + (month + 1));      
-  //   const result = await response.json();
-  //   console.log(result);
-  // } catch (error) {
-  //   console.log("Failed to fetch data");
-  // }
 
-  const mocked_list = [
-    {day: 1, entry_title: "title", entry_content: "Piekny i inspirujący cytat", activities: [{name: "A name", description: "desc", mood: 1}], social_activities: [{name: "Soc", description: "Social description", mood: 5}]},
-    {day: 29, entry_title: "title2", entry_content: "Piekny i inspirujący cytat2", activities: [{name: "A name", description: "desc", mood: 1}, {name: "A name 2", description: "desc 2", mood: 3}], social_activities: [{name: "Soc", description: "Social description", mood: 5}]}
-  ]
- 
-  return mocked_list;
-};
+interface ApiResult {
+  day: number,
+  entry_title: string,
+  entry_content: string,
+  activities: Array<{
+    name: string,
+    description: string,
+    mood: number
+  }>,
+  social_activities: Array<{
+    name: string,
+    description: string,
+    mood: number
+  }>
+}
+
 
 const JournalView = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [chosenDate, setChosenDate] = useState(new Date().getDate());
-  const [activities, setActivities] = useState(fetchActivities(currentDate.getFullYear(), currentDate.getMonth()));
-  console.log(activities);
+  const [activities, setActivities] = useState<Array<ApiResult> | null>(null);
+
+  
+  const fetchData = async (year: number, month: number) => {
+    try {
+      const response = await fetch("http://localhost:5000/1/" + year + "/" + (month + 1));
+      const result = await response.json();
+      setActivities(result);
+    } catch (error) { 
+      console.log("error");
+      setActivities(null);
+    }
+  };
+
+  useEffect(() => {
+    if (chosenDate) {
+      fetchData(currentDate.getFullYear(), currentDate.getMonth());  // Call fetch with the current query
+    }
+  }, [chosenDate]); 
+
 
   const renderCalendar = () => {
     const firstWeekday: number = currentDate.getDay() == 0 ? 7 : currentDate.getDay();
@@ -51,12 +71,10 @@ const JournalView = () => {
 
   const handlePrevMonth = () => {
     setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
-    setActivities(fetchActivities(currentDate.getFullYear(), currentDate.getMonth()));
   };
 
   const handleNextMonth = () => {
     setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
-    setActivities(fetchActivities(currentDate.getFullYear(), currentDate.getMonth()));
   }; 
 
   const handleDateClick = (day: number) => {
@@ -74,6 +92,9 @@ const JournalView = () => {
   }
 
   const displayActivityData = (key: string) => {
+    if (activities == null) {
+      return "";
+    }
     const activity = activities.find((a) => a.day === chosenDate);
     if (activity == undefined || activity == null) {
       return "";
@@ -82,6 +103,9 @@ const JournalView = () => {
   }
 
   const renderDaySummary = () => {
+    if (activities == null) {
+      return "";
+    }
     const activity = activities.find((a) => a.day === chosenDate);
     const activitiesToRender = []
 
@@ -95,7 +119,7 @@ const JournalView = () => {
           <span></span>
           <div className="icon"><FontAwesomeIcon icon={faCubes} size="2x"/></div>
           <p>{activity.activities[i].name}</p>
-          <p>{activity.activities[i].mood}</p>
+          <p className="mood">{resolveMood(activity.activities[i].mood)}</p>
         </div>
       );
     }
@@ -105,7 +129,7 @@ const JournalView = () => {
           <span></span>
           <div className="icon"><FontAwesomeIcon icon={faUsers} size="2x"/></div>
           <p>{activity.activities[i].name}</p>
-          <p>{activity.activities[i].mood}</p>
+          <p className="mood">{resolveMood(activity.activities[i].mood)}</p>
         </div>
       );
     }
@@ -146,6 +170,7 @@ const JournalView = () => {
       <div className="day-summary">
         {renderDaySummary()}
       </div>
+      <a className="back-button" href="/">Go back</a>
     </div>
   );
 };
