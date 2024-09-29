@@ -1,5 +1,15 @@
+@font-face {
+  font-family: "Merienda";
+  src: url("/Merienda.ttf");
+}
+
+@font-face {
+  font-family: "Fredoka";
+  src: url("/Fredoka.ttf");
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Fredoka", system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -42,9 +52,9 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+/* button:hover {
   border-color: #646cff;
-}
+} */
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
