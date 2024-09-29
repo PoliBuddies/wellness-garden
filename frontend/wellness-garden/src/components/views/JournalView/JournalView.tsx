@@ -1,7 +1,10 @@
 import { useState } from "react";
 import "./JournalView.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faCubes } from "@fortawesome/free-solid-svg-icons";
 
-const fetchActivities = async (year: number, month: number) => {
+const fetchActivities = (year: number, month: number) => {
   // try {
   //   const response = await fetch("http://localhost:5000/1/" + year + "/" + (month + 1));      
   //   const result = await response.json();
@@ -10,9 +13,12 @@ const fetchActivities = async (year: number, month: number) => {
   //   console.log("Failed to fetch data");
   // }
 
-  return {
-    [0, 1]
-  };
+  const mocked_list = [
+    {day: 1, entry_title: "title", entry_content: "Piekny i inspirujący cytat", activities: [{name: "A name", description: "desc", mood: 1}], social_activities: [{name: "Soc", description: "Social description", mood: 5}]},
+    {day: 29, entry_title: "title2", entry_content: "Piekny i inspirujący cytat2", activities: [{name: "A name", description: "desc", mood: 1}, {name: "A name 2", description: "desc 2", mood: 3}], social_activities: [{name: "Soc", description: "Social description", mood: 5}]}
+  ]
+ 
+  return mocked_list;
 };
 
 const JournalView = () => {
@@ -55,12 +61,7 @@ const JournalView = () => {
 
   const handleDateClick = (day: number) => {
     setChosenDate(day);
-    // TODO: Display in a list activities
   }
-
-  const displayActivities = () => {
-    return <p>{chosenDate}</p>;
-  } 
 
   const getMonthName = (monthIndex: number) => {
     const months: Array<string> = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -72,6 +73,46 @@ const JournalView = () => {
     return new Date().toDateString() == date.toDateString();
   }
 
+  const displayActivityData = (key: string) => {
+    const activity = activities.find((a) => a.day === chosenDate);
+    if (activity == undefined || activity == null) {
+      return "";
+    }
+    return activity?[key] ?? "": "";
+  }
+
+  const renderDaySummary = () => {
+    const activity = activities.find((a) => a.day === chosenDate);
+    const activitiesToRender = []
+
+    if (activity == undefined || activity == null) {
+      return [];
+    }
+
+    for (let i = 0; i < activity.activities.length; i++) {
+      activitiesToRender.push(
+        <div className="activity">
+          <span></span>
+          <div className="icon"><FontAwesomeIcon icon={faCubes} size="2x"/></div>
+          <p>{activity.activities[i].name}</p>
+          <p>{activity.activities[i].mood}</p>
+        </div>
+      );
+    }
+    for (let i = 0; i < activity!["social_activities"].length; i++) {
+      activitiesToRender.push(
+        <div className="activity">
+          <span></span>
+          <div className="icon"><FontAwesomeIcon icon={faUsers} size="2x"/></div>
+          <p>{activity.activities[i].name}</p>
+          <p>{activity.activities[i].mood}</p>
+        </div>
+      );
+    }
+    
+    return activitiesToRender;
+  }
+
   return ( 
     <div className="calendar-view">
       <div className="calendar-side">
@@ -81,7 +122,7 @@ const JournalView = () => {
         </div>
         <div className="journal">
           <p><i>Today's notes:</i></p>
-          <p>Lorem ipsum generated text xddd </p>
+          <p>{displayActivityData("entry_description")}</p>
         </div>
       </div>
       <div className="calendar-wrapper">
@@ -103,7 +144,7 @@ const JournalView = () => {
         <button className="nav-button" onClick={handleNextMonth}>▶</button >
       </div>
       <div className="day-summary">
-        {displayActivities()}
+        {renderDaySummary()}
       </div>
     </div>
   );
