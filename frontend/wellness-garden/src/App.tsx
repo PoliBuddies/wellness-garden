@@ -8,6 +8,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import GardenView from './components/views/GardenView/GardenView.tsx'
 import { createTheme, ThemeProvider } from '@mui/material'
 import { AnimatePresence } from 'framer-motion'
+import JournalView from './components/views/JournalView/JournalView.tsx'
 
 const App = () => {
   const theme = createTheme({
@@ -44,7 +45,7 @@ const App = () => {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<MainView />} />
           <Route path="/garden" element={<GardenView />} />
-          <Route path="/journal" element={<GardenView />} />
+          <Route path="/journal" element={<JournalView />} />
           <Route path="/tree" element={<GardenView />} />
         </Routes>
       </AnimatePresence>
