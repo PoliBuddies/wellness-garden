@@ -1,0 +1,145 @@
+// This file contains requests for testing the API
+// Name of a test contains the expected status code
+// (on the condition that empty test database is used)
+### Life check: 200
+GET http://localhost:5000/is-alive
+
+### Get user: 200
+@username = buddy
+GET http://localhost:5000/users/{{username}}
+
+### Add journal" 201
+POST http://localhost:5000/journals/1
+Content-Type: application/json
+
+{
+  "title": "My first journal",
+  "description": "This is my first journal"
+}
+
+### Add journal again: 400
+POST http://localhost:5000/journals/1
+Content-Type: application/json
+
+{
+  "title": "My first journal",
+  "description": "This is my first journal"
+}
+
+
+### Add journal without Content-Type: 415
+POST http://localhost:5000/journals/1
+
+{
+  "title": "My first journal",
+  "description": "This is my first journal"
+}
+
+### Add journal with wrong body: 400
+POST http://localhost:5000/journals/1
+Content-Type: application/json
+
+{
+  "title": "My first journal",
+  "content": "This is my first journal"
+}
+
+### Get journal: 200
+GET http://localhost:5000/journals/1
+
+### Add journal with wrong user_id: 404
+POST http://localhost:5000/journals/2
+Content-Type: application/json
+
+{
+  "title": "My first journal",
+  "content": "This is my first journal"
+}
+
+### Get journal with wrong user_id: 404
+GET http://localhost:5000/journals/2
+
+### Get activities before adding: 404
+GET http://localhost:5000/activities/1/
+
+
+### Add activity: 201
+POST http://localhost:5000/activities/1
+Content-Type: application/json
+
+{
+  "title": "My first activity",
+  "description": "This is my first activity"
+}
+
+### Get all user's activities: 200
+GET http://localhost:5000/activities/1
+
+### Get activity: 200
+GET http://localhost:5000/activities/1/1/
+
+
+### Get non existing activity: 404
+GET http://localhost:5000/activities/1/2/
+
+### Get friends before adding: 404
+GET http://localhost:5000/friends/1/
+
+### Add friend: 201
+POST http://localhost:5000/friends/1
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "description": "This is my first friend"
+}
+
+
+### Get user's friends: 200
+GET http://localhost:5000/friends/1
+
+### Get non existing social activity: 404
+GET http://localhost:5000/socials/1/
+
+### Add social activity: 201
+POST http://localhost:5000/socials/1
+Content-Type: application/json
+
+{
+  "name": "Pub with John",
+  "description": "This is my first social",
+  "friends_ids": [1],
+  "date": "2024-09-28T22:40",
+  "mood": 3
+}
+
+### Add mood: 201
+POST http://localhost:5000/activities/1/1/moods/
+Content-Type: application/json
+
+{
+  "mood": 5,
+  "date": "2024-09-28T22:40",
+  "icon": "sh"
+}
+
+### Get moods: 200
+GET http://localhost:5000/activities/1/1/moods/
+
+### Update mood: 200
+PATCH http://localhost:5000/activities/1/1/moods/1/
+Content-Type: application/json
+
+{
+  "mood": 4
+}
+
+### Add entry: 201
+POST http://localhost:5000/journals/1/entries/
+Content-Type: application/json
+
+{
+  "title": "My first entry",
+  "content": "This is my first entry",
+  "date": "2024-09-28T22:40"
+}

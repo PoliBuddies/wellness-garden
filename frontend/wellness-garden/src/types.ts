@@ -4,3 +4,35 @@ export enum VIEWS {
     TREE_VIEW = 'TREE_VIEW',
     MOOD_BOARD_VIEW = 'MOOD_BOARD_VIEW',
 };
+
+export interface Activity {
+    name?: string,
+    emote?: string,
+    description?: string,
+    mood?: number[],
+} //todo define properly
+
+export interface ActivityWithPlotImg extends Activity {
+    img: string;
+}
+
+export enum PlotTilesImg {
+    TOP_LEFT = 'url("/plot-1.png")',
+    BOTTOM_LEFT = 'url("/plot-2.png")',
+    TOP_MID = 'url("/plot-3.png")',
+    BOTTOM_MID = 'url("/plot-4.png")',
+    TOP_RIGHT = 'url("/plot-5.png")',
+    BOTTOM_RIGHT = 'url("/plot-6.png")',
+}
+
+export const resolveMood = (mood: number): string => {
+    switch(mood) {
+        case 1: return '😢';
+        case 2: return '😕';
+        case 3: return '😐';
+        case 4: return '😊';
+        case 5: return '😁';
+        default: return '🥸';
+    } 
+}
+
