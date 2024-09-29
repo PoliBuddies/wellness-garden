@@ -45,8 +45,8 @@ def get_all_activity_moods_in_month(user_id, year, month):
 def get_all_users_entries_in_month(user_id, year, month):
     entries = Entry.query.filter(
         Entry.journal.has(user_id=user_id),
-        sqlalchemy.extract("year", Entry.created_at) == year,
-        sqlalchemy.extract("month", Entry.created_at) == month
+        sqlalchemy.extract("year", Entry.date) == year,
+        sqlalchemy.extract("month", Entry.date) == month
     ).all()
     return entries
 
@@ -98,10 +98,12 @@ def entries_endpoint(user_id: int):
         try:
             title = body['title']
             content = body['content']
+            date = (datetime.datetime.strptime(body['date'], "%Y-%m-%dT%H:%M")
+                    if 'date' in body else datetime.datetime.now())
         except KeyError:
             return "Invalid request", 400
         journal_id = User.query.filter(User.id == user_id).one_or_404().journal.id
-        entry = Entry(title=title, content=content, journal_id=journal_id)
+        entry = Entry(title=title, content=content, journal_id=journal_id, date=date)
         db.session.add(entry)
         try:
             db.session.commit()
@@ -172,10 +174,11 @@ def add_activity_mood(user_id: int, activity_id: int):
         body = request.json
         try:
             mood = int(body['mood'])
+            date = datetime.datetime.strptime(body['date'], "%Y-%m-%dT%H:%M")
         except (KeyError, ValueError, TypeError) as e:
             print(e)
             return "Invalid request", 400
-        mood = ActivityMood(mood=mood, activity_id=activity_id)
+        mood = ActivityMood(mood=mood, date=date, activity_id=activity_id)
         db.session.add(mood)
         try:
             db.session.commit()
@@ -301,8 +304,8 @@ def calendar_endpoint(user_id: int, year: int, month: int):
             "entry_content": ""
         })
     for entry in entries:
-        response[entry.created_at.day - 1]['entry_title'] = entry.title
-        response[entry.created_at.day - 1]['entry_content'] = entry.content
+        response[entry.date.day - 1]['entry_title'] = entry.title
+        response[entry.date.day - 1]['entry_content'] = entry.content
     for activity_mood in activities_moods:
         response[activity_mood.date.day - 1]['activities'].append({
             "name": activity_mood.activity.name,
